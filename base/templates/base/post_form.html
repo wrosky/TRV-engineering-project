@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div>
+    {% if form.errors %}
+
+        <div class="form-errors">
+            <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                        <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                    {% endif %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+    {% endif %}
+
+    <form method="POST" action="" class="form-create-post" enctype="multipart/form-data">
+        {% csrf_token %}     
+        <div>
+            {{ form.topic.label_tag }} {{ form.topic }}
+        </div>
+        
+        <div>
+            {{ form.user_name.label_tag }} {{ form.user_name }}
+        </div>
+
+        <div>
+            {{ form.localisation.label_tag }} {{ form.localisation }}
+        </div>
+
+        <div>
+            {{ form.description.label_tag }} {{ form.description }}
+        </div>
+
+        <div>
+            <label for="id_image" class="custom-file-label">
+                Add Photos
+            </label>
+            {{ form.image }}
+        </div>
+
+        <div>
+            <input type="Submit" value="Submit" class="btn-submit" />
+        </div>
+    </form>
+</div>
+
+<script src="{% static 'js/form.js' %}"></script>
+
+{% endblock %}

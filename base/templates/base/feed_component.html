@@ -1,0 +1,21 @@
+<div class="feed-container">
+
+    {% for post in posts %}
+
+        <div>
+            {% if request.user == post.host %}
+
+            <a href="{% url 'update_post' post.id %}">Edit</a>
+            <a href="{% url 'delete_post' post.id %}">Delete</a>
+
+            {% endif %}
+
+            <span><a href="{% url 'user_profile' post.host.id %}">{{post.host.username}}</a></span>
+            <h5>{{post.id}} -- <a href="{% url 'post' post.id %}">{{post.user_name}}</a></h5>
+            <small>{{post.topic.name}}</small>
+            <hr>
+        </div>
+
+    {% endfor %}
+
+</div>

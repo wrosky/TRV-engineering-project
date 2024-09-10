@@ -1,0 +1,60 @@
+.form-create-post {
+    background-color: rgba(255, 139, 43, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-create-post input[type="text"],
+.form-create-post input[type="file"],
+.form-create-post textarea,
+.form-create-post select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.btn-submit {
+    font-family: inherit;
+    font-size: inherit;
+    background-color: rgba(255, 139, 43, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background-color: rgba(255, 139, 43, 0.65);
+}
+
+.custom-file-input {
+    display: none;
+}
+
+.custom-file-label {
+    font-family: inherit;
+    font-size: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: rgba(255, 139, 43, 0.5);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-file-label:hover {
+    background-color: rgba(255, 139, 43, 0.65);
+}

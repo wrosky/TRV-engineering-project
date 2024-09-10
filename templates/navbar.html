@@ -1,0 +1,23 @@
+{% load static %}
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center;">
+        <a href="/" style="margin-right: 20px; margin-left: 10px;">
+            <h1>HOME</h1>
+        </a>
+        <!-- <a href="/post" style="margin-right: 20px;">
+            <h1>POSTS</h1>
+        </a> -->
+    </div>
+    
+    {% include 'searchbar.html' %}
+    
+    <div style="display: flex; align-items: center;">
+        {% if request.user.is_authenticated %}
+        <span>Hi, {{ request.user.username }}!</span>
+        <a href="{% url 'logout' %}" style="margin-right: 20px; margin-left: 20px;">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}" style="margin-right: 20px;">Login</a>
+        {% endif %}
+    </div>
+</div>
