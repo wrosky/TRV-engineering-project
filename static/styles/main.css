@@ -1,5 +1,5 @@
 body{
-    background-color: gray;
+    background-color: #FFFAFA;
     font-family: 'Source Sans 3', sans-serif;
 }
 
@@ -12,6 +12,11 @@ hr{
     border: 1px solid black;
 }
 
+.home-container{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+
 .info-up{
     background-color: rgba(255, 139, 43, 0.5);
     margin-left: 10px;
@@ -22,6 +27,10 @@ hr{
     padding: 10px;
 }
 
+.info-up h3{
+    text-align: center;
+}
+
 .browse-topic-container{
     background-color: rgba(255, 139, 43, 0.5);
     margin-left: 10px;
@@ -29,10 +38,29 @@ hr{
     /* border: 2px solid black; */
     border-radius: 10px;
     padding: 10px;
+    font-size: 20px;
 }
 
-.browse-topic-container h3 {
+.browse-topic-name {
+    display: flex;
+    justify-content: center; /* Wyśrodkuje poziomo */
     text-align: center;
+}
+
+.browse-topic-container h3{
+    text-align: center;
+}
+
+.browse-topic-container h5{
+    text-align: center;
+    margin: 10px;
+}
+
+.browse-topic-container-topics{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin: 10px;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .feed-container{
@@ -44,6 +72,19 @@ hr{
     padding: 10px;
 }
 
+.post-feed-container{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin-left: 10px;
+    margin-right: 10px;
+    /* border: 2px solid black; */
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .activity-container{
     background-color: rgba(255, 139, 43, 0.5);
     margin-right: 10px;
@@ -51,9 +92,25 @@ hr{
     /* border: 2px solid black; */
     border-radius: 10px;
     padding: 10px;
+    font-size: 20px;
 }
 
-.post-container{
+.activity-container h3{
+    text-align: center;
+}
+
+.activity-container a{
+    text-align: center;
+}
+
+.activity-container-comment{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.profile-container{
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
 }

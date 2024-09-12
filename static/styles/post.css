@@ -1,0 +1,90 @@
+.post-container{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.post-info{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.post-info p,
+.post-info h1{
+    text-align: center;
+}
+
+.post-comment{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.post-comment h1{
+    margin-left: 10px;
+}
+
+.post-comment-single{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.post-comment-single-details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-comment-form{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.post-comment-form input[type="text"]{
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgba(255, 139, 43, 0.5);
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.post-comment-form input[type="text"]:focus,
+.post-comment-form input[type="text"]:active{
+    background-color: rgba(255, 139, 43, 0.1);
+    border-color: rgba(255, 139, 43, 1);
+}
+
+.post-users{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.post-users h1{
+    text-align: center;
+}
+
+.post-users-single{
+    background-color: rgba(255, 139, 43, 0.5);
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}

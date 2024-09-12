@@ -1,21 +1,18 @@
 <div class="activity-container">
     <h3>Recent Activity</h3>
-    <hr>
     {% for comment in post_comments %}
 
-        <div>
-
-            <small><a href="{% url 'user_profile' comment.user.id %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
-            <small>replied to "{{comment.post}}"</small>
-
+        <div class="activity-container-comment">
             <p>{{comment}}</p>
+
+            <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
+            <small>replied to "{{comment.post}}"</small>
 
             {% if request.user == comment.user %}
 
-            <a href="{% url 'delete_comment' comment.id%}">Delete</a>
+            <!-- <a href="{% url 'delete_comment' comment.id%}">Delete</a> -->
 
             {% endif %}
-            <hr>
         </div>
         
     {% endfor %}

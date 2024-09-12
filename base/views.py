@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib import messages
@@ -10,8 +10,13 @@ from .models import Post, Topic, Comment
 from .forms import PostForm
 
 @login_required(login_url='login')
-def profilePage(request):
-    return render(request, 'base/profile.html')
+def profilePage(request, username):
+    user = get_object_or_404(User, username=username)
+    posts = user.post_set.all()
+    post_comments = user.comment_set.all()
+    topics = Topic.objects.all()
+    context = {'user': user, 'posts': posts, 'post_comments': post_comments, 'topics': topics}
+    return render(request, 'base/profile.html', context)
 
 def loginPage(request):
     page = 'login'
@@ -64,7 +69,7 @@ def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     posts = Post.objects.filter(
         Q(topic__name__icontains=q) |
-        Q(user_name__icontains=q) |
+        Q(title__icontains=q) |
         Q(localisation__icontains=q)
         )
 
@@ -91,14 +96,6 @@ def post(request, pk):
 
     context = {'post': post, 'post_comments': post_comments, 'participants': participants}
     return render(request, 'base/post.html', context)
-
-def userProfile(request, pk):
-    user = User.objects.get(id=pk)
-    posts = user.post_set.all()
-    post_comments = user.comment_set.all()
-    topics = Topic.objects.all()
-    context = {'user': user, 'posts': posts, 'post_comments': post_comments, 'topics': topics}
-    return render(request, 'base/profile.html', context)
 
 @login_required(login_url='login')
 def createPost(request):

@@ -2,30 +2,25 @@
 
 {% block content %}
 
-<style>
-    .post-container{
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-    }
-</style>
-
 <div class="post-container">
     <div>
-        <h1>{{post.user_name}}</h1>
-        <p>{{post.description}}</p>
-        <div class="comment-wrapper">
-            <h3>Conversation</h3>
-            <hr>
+        <div class="post-info">
+            <h1>{{post.title}}</h1>
+            <p>{{post.description}}</p>
+        </div>
+        <div class="post-comment">
+            <h1>Conversation</h1>
 
             {% for comment in post_comments %}
 
-            <div>
-                {% if request.user == comment.user %}
-                <a href="{% url 'delete_comment' comment.id%}">Delete</a>
-                {% endif %}
-                <small><a href="{% url 'profile' %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
+            <div class="post-comment-single">
                 <p>{{comment.body}}</p>
-                <hr>
+                <div class="post-comment-single-details">
+                    <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
+                    {% if request.user == comment.user %}
+                    <a href="{% url 'delete_comment' comment.id%}">Delete</a>
+                    {% endif %}
+                </div>
             </div>
 
             {% endfor %}
@@ -34,7 +29,7 @@
 
         {% if request.user.is_authenticated %}
 
-        <div class="comment-form">
+        <div class="post-comment-form">
             <form method="POST" action="">
                 {% csrf_token %}
                 <input type="text" name="body" placeholder="Add a comment...">
@@ -44,14 +39,13 @@
         {% endif %}
     </div>
 
-    <div>
-        <h3>Users</h3>
-        <hr>
+    <div class="post-users">
+        <h1>Users</h1>
 
         {% for user in participants %}
 
-        <div>
-            <a href="{% url 'profile' %}">{{user.username}}</a>
+        <div class="post-users-single">
+            <a href="{% url 'user_profile' user.username %}">{{user.username}}</a>
         </div>      
 
         {% endfor %}

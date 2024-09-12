@@ -12,7 +12,7 @@ class Topic(models.Model):
 class Post(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
-    user_name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now_add=True)
     localisation = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
@@ -24,7 +24,7 @@ class Post(models.Model):
         ordering = ['-date_created']
 
     def __str__(self):
-        return self.user_name
+        return self.title
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
