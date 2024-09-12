@@ -22,9 +22,9 @@ hr{
     margin-left: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
-    /* border: 2px solid black; */
     border-radius: 10px;
     padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .info-up h3{
@@ -35,10 +35,10 @@ hr{
     background-color: rgba(255, 139, 43, 0.5);
     margin-left: 10px;
     margin-right: 10px;
-    /* border: 2px solid black; */
     border-radius: 10px;
     padding: 10px;
     font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .browse-topic-name {
@@ -67,16 +67,15 @@ hr{
     background-color: rgba(255, 139, 43, 0.5);
     margin-left: 10px;
     margin-right: 10px;
-    /* border: 2px solid black; */
     border-radius: 10px;
     padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .post-feed-container{
     background-color: rgba(255, 139, 43, 0.5);
     margin-left: 10px;
     margin-right: 10px;
-    /* border: 2px solid black; */
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
@@ -89,10 +88,10 @@ hr{
     background-color: rgba(255, 139, 43, 0.5);
     margin-right: 10px;
     margin-left: 10px;
-    /* border: 2px solid black; */
     border-radius: 10px;
     padding: 10px;
     font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .activity-container h3{
