@@ -4,21 +4,30 @@
 
 {% if page == 'login' %}
 
-<div>
+<div class="form-login">
     <form method="POST" action="">
         {% csrf_token %}
-        <label>Username:</label>
-        <input type="text" name="username" placeholder="Username"/>
-        <label>Password:</label>
-        <input type="password" name="password" placeholder="Password"/>
+        <div class="form-login-single">
+            <div>
+                <h5><label>Username:</label></h5>
+            </div>
+            <input type="text" name="username" placeholder="Username"/>
+        </div>
+        <div class="form-login-single">
+            <div>
+                <h5><label>Password:</label></h5>
+            </div>
+            <input type="password" name="password" placeholder="Password"/>
+        </div>
         <input type="submit" value="Login"/>
     </form>
+</div>
 
+<center>
     <p>
         Don't have an account? <a href="{% url 'register' %}">Sign up</a>
     </p>
-</div>
-
+</center>
 {% else %}
 
 <div>

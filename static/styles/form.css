@@ -1,10 +1,14 @@
+.form-login,
 .form-create-post {
     background-color: rgba(255, 139, 43, 0.5);
     padding: 20px;
     border-radius: 10px;
     max-width: 600px;
     margin: 20px auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .form-create-post input[type="text"],
@@ -20,20 +24,22 @@
     box-sizing: border-box;
 }
 
+.form-login input[type="submit"],
 .btn-submit {
     font-family: inherit;
     font-size: inherit;
     background-color: rgba(255, 139, 43, 0.5);
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
+    padding: 10px;
+    border-radius: 15px;
     cursor: pointer;
     display: block;
     width: 100%;
     margin-top: 10px;
 }
 
+.form-login input[type="submit"]:hover,
 .btn-submit:hover {
     background-color: rgba(255, 139, 43, 0.65);
 }
@@ -57,4 +63,15 @@
 
 .custom-file-label:hover {
     background-color: rgba(255, 139, 43, 0.65);
+}
+
+.form-login-single input[type="password"],
+.form-login-single input[type="text"]{
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.form-login-single h5{
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
