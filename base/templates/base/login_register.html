@@ -30,17 +30,37 @@
 </center>
 {% else %}
 
-<div>
+<div class="form-register">
     <form method="POST" action="">
         {% csrf_token %}
-        {{ form.as_p }}
+            <div class="form-register-single">
+                <div>
+                    <h5><label>Username:</label></h5>
+                </div>
+                <input type="text" name="username" placeholder="Username"/>
+            </div>
+            <div class="form-register-single">
+                <div>
+                    <h5><label>Password:</label></h5>
+                </div>
+                <input type="password" name="password" placeholder="Password"/>
+            </div>
+            <div class="form-register-single">
+                <div>
+                    <h5><label>Password condirmation:</label></h5>
+                </div>
+                <input type="password" name="password_confirm" placeholder="Password"/>
+            </div>
         <input type="submit" value="Register"/>
     </form>
-    
-    <p>
-        Already have an account? <a href="{% url 'login' %}">Log in</a>
-    </p>
 </div>
+
+<center>
+    <p>
+    Already have an account? <a href="{% url 'login' %}">Log in</a>
+    </p>
+</center>
+
 
 {% endif %}
 

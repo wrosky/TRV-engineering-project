@@ -49,20 +49,25 @@ def logoutUser(request):
     return redirect('home')
 
 def registerPage(request):
-    form = UserCreationForm()
+    page = 'register'
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
-            messages.success(request, 'User was created successfully, login to continue')
-            return redirect('login')
-        else:
-            messages.error(request, 'An error has occured during registration')
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+        password_confirm = request.POST.get('password_confirm')
 
-    context = {'form': form}
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists')
+        elif password != password_confirm:
+            messages.error(request, 'Passwords do not match')
+        else:
+            user = User.objects.create_user(username=username, password=password)
+            user.save()
+            messages.success(request, 'Account created successfully')
+
+            return redirect('login')
+
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 def home(request):
@@ -80,6 +85,7 @@ def home(request):
     context = {'posts': posts, 'topics': topics, 'post_count': post_count, 'post_comments': post_comments}
     return render(request, 'base/home.html', context)
 
+@login_required(login_url='login')
 def post(request, pk):
     post = Post.objects.get(id=pk)
     post_comments = post.comment_set.all().order_by('-date_created')
@@ -101,7 +107,7 @@ def post(request, pk):
 def createPost(request):
     form = PostForm()
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.host = request.user

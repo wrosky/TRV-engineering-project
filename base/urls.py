@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('login/', views.loginPage, name='login'),
@@ -15,3 +17,6 @@ urlpatterns = [
     path('delete_post/<str:pk>', views.deletePost, name='delete_post'),
     path('delete_comment/<str:pk>', views.deleteComment, name='delete_comment')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -18,7 +18,7 @@ class Post(models.Model):
     description = models.TextField(null=True, blank=True)
     participants = models.ManyToManyField(User, related_name='participants', blank=True)
     rate = models.IntegerField()
-    image = models.ImageField(upload_to='images/', blank=True)
+    image = models.ImageField(upload_to='posts/', blank=True)
 
     class Meta:
         ordering = ['-date_created']
