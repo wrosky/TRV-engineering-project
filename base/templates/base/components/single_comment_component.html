@@ -1,6 +1,9 @@
 {% load static %}
 <div class="post-comment-single">
-    <p>{{comment.body}}</p>
+    <div class="avatar">
+        <img src="{{comment.user.avatar.url}}" />
+    </div>
+    <h3>{{comment.body}}</h3>
     <div class="post-comment-single-details">
         <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
         {% if request.user == comment.user %}

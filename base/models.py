@@ -1,7 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
 
 # Create your models here.
+
+class User(AbstractUser):
+    name = models.CharField(max_length=100, null=True)
+    email = models.EmailField(unique=True)
+    bio = models.TextField(null=True, blank=True)
+    avatar = models.ImageField(null=True, default='User-avatar.svg.png')
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
 class Topic(models.Model):
     name = models.CharField(max_length=100)
@@ -18,7 +27,7 @@ class Post(models.Model):
     description = models.TextField(null=True, blank=True)
     participants = models.ManyToManyField(User, related_name='participants', blank=True)
     rate = models.IntegerField()
-    image = models.ImageField(upload_to='posts/', blank=True)
+    image = models.ImageField(upload_to='posts/', blank=True, null=True)
 
     class Meta:
         ordering = ['-date_created']

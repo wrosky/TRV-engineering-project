@@ -3,6 +3,9 @@
     {% for comment in post_comments %}
 
         <div class="activity-container-comment">
+            <div class="avatar">
+                <img src="{{comment.user.avatar.url}}" />
+            </div>
             <p>{{comment}}</p>
 
             <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>

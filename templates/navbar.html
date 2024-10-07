@@ -15,8 +15,8 @@
     <div class="navbar-container-right">
         {% if request.user.is_authenticated %}
         <div class="dropdown">
-            <div class="username-profile-button">
-                <a href="{% url 'user_profile' request.user.username %}">{{ request.user.username }}</a>
+            <div class="navbar-avatar">
+                <a href="{% url 'user_profile' request.user.username %}"><img src="{{ request.user.avatar.url }}"/></a>
             </div>
             <div class="dropdown-content">
                 <div class="edit-user-button">

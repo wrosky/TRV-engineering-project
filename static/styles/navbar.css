@@ -43,7 +43,7 @@
     display: none;
     position: absolute;
     top: 100%;
-    right: 13%;
+    right: 12%;
     background-color: #ff8a2b;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
@@ -65,4 +65,14 @@
 
 .dropdown-content {
     transition: display 0.3s ease-in-out;
+}
+
+.navbar-avatar img{
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 2px solid black;
 }

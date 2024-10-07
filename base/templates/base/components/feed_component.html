@@ -1,17 +1,22 @@
+{% load static %}
 <div class="feed-container">
 
     {% for post in posts %}
 
         <div class="post-feed-container" id="post_feed_container">
+            <div class="avatar">
+                <img src="{{post.host.avatar.url}}" />
+            </div>
+
+            <!-- <span><a href="{% url 'user_profile' post.host.username %}">{{post.host.username}}</a></span> -->
+            <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+
             {% if request.user == post.host %}
 
             <!-- <a href="{% url 'update_post' post.id %}">Edit</a> -->
-            <a href="{% url 'delete_post' post.id %}"><img src="static/images/delete-02-stroke-rounded.svg" alt="trash"/></a>
+            <a href="{% url 'delete_post' post.id %}"><img src="{% static 'images/delete-02-stroke-rounded.svg' %}" alt="trash"></a>
 
             {% endif %}
-
-            <!-- <span><a href="{% url 'user_profile' post.host.username %}">{{post.host.username}}</a></span> -->
-            <h5><a href="{% url 'post' post.id %}">{{post.title}}</a></h5>
         </div>
 
     {% endfor %}
