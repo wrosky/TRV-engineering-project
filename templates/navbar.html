@@ -5,18 +5,27 @@
         <a href="/" style="margin-right: 20px; margin-left: 10px;">
             <h1>HOME</h1>
         </a>
+        <a href="/" style="margin-right: 20px; margin-left: 10px;"></a>
+            <h1>TRAV SPACE</h1>
+        </a>
     </div>
     
     {% include 'searchbar.html' %}
     
     <div class="navbar-container-right">
         {% if request.user.is_authenticated %}
-        <div class="username-profile-button">
-            <a href="{% url 'user_profile' user.username %}">{{ request.user.username }}</a>
-        </div>
-        
-        <div class="logout-button">
-            <a href="{% url 'logout' %}">Logout</a>
+        <div class="dropdown">
+            <div class="username-profile-button">
+                <a href="{% url 'user_profile' request.user.username %}">{{ request.user.username }}</a>
+            </div>
+            <div class="dropdown-content">
+                <div class="edit-user-button">
+                    <a href="{% url 'edit_user' %}">Edit Profile</a>
+                </div>
+                <div class="logout-button" style="margin-top: 10px;">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
         </div>
         {% else %}
         <div class="login-button">

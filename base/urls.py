@@ -15,7 +15,9 @@ urlpatterns = [
     path('create_post/', views.createPost, name='create_post'),
     path('update_post/<str:pk>', views.updatePost, name='update_post'),
     path('delete_post/<str:pk>', views.deletePost, name='delete_post'),
-    path('delete_comment/<str:pk>', views.deleteComment, name='delete_comment')
+    path('delete_comment/<str:pk>', views.deleteComment, name='delete_comment'),
+
+    path('edit_user/', views.editUser, name='edit_user')
 ]
 
 if settings.DEBUG:

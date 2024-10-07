@@ -160,3 +160,17 @@ def deleteComment(request, pk):
         return redirect('home')
 
     return render(request, 'base/delete.html', {'obj': comment})
+
+@login_required(login_url='login')
+def editUser(request):
+    user = request.user
+    form = UserCreationForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'base/edit_user.html', context)

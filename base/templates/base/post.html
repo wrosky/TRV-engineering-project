@@ -14,14 +14,8 @@
 
             {% for comment in post_comments %}
 
-            <div class="post-comment-single">
-                <p>{{comment.body}}</p>
-                <div class="post-comment-single-details">
-                    <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
-                    {% if request.user == comment.user %}
-                    <a href="{% url 'delete_comment' comment.id%}">Delete</a>
-                    {% endif %}
-                </div>
+            <div>
+                {% include 'base/components/single_comment_component.html' %}
             </div>
 
             {% endfor %}
