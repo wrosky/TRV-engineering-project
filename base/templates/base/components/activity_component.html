@@ -6,10 +6,10 @@
             <div class="avatar">
                 <img src="{{comment.user.avatar.url}}" />
             </div>
-            <p>{{comment}}</p>
+            <h4>{{comment}}</h4>
 
-            <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
-            <small>replied to "{{comment.post}}"</small>
+            <h5><a href="{% url 'user_profile' comment.user.username %}">{{comment.user.username}}</a> {{comment.date_created|timesince}} ago</h5>
+            <h5>replied to "{{comment.post}}"</h5>
 
             {% if request.user == comment.user %}
 

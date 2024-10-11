@@ -1,6 +1,6 @@
 .form-register,
 .form-login{
-    background-color: rgba(255, 139, 43, 0.5);
+    background-color: #B4D4FF;
     padding: 20px;
     border-radius: 10px;
     max-width: 600px;
@@ -14,7 +14,7 @@
 
 .delete,
 .form-create-post{
-    background-color: rgba(255, 139, 43, 0.5);
+    background-color: #B4D4FF;
     padding: 20px;
     border-radius: 10px;
     max-width: 600px;
@@ -28,8 +28,9 @@
 .form-create-post select {
     width: 100%;
     padding: 10px;
+    margin-top: 15px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #B4D4FF;
     border-radius: 4px;
     font-size: 16px;
     box-sizing: border-box;
@@ -41,8 +42,8 @@
 .btn-submit {
     font-family: inherit;
     font-size: inherit;
-    background-color: rgba(255, 139, 43, 0.5);
-    color: white;
+    background-color: #EEF5FF;
+    color: black;
     border: none;
     padding: 10px;
     border-radius: 15px;
@@ -55,11 +56,11 @@
 .form-register input[type="submit"]:hover,
 .form-login input[type="submit"]:hover,
 .btn-submit:hover {
-    background-color: rgba(255, 139, 43, 0.65);
+    background-color: #D6DCE5;
 }
 
 .custom-file-input {
-    display: none;
+    display: block;
 }
 
 .custom-file-label {
@@ -69,14 +70,14 @@
     align-items: center;
     justify-content: center;
     padding: 10px;
-    background-color: rgba(255, 139, 43, 0.5);
-    color: white;
-    border-radius: 4px;
+    background-color: #EEF5FF;
+    color: black;
+    border-radius: 15px;
     cursor: pointer;
 }
 
 .custom-file-label:hover {
-    background-color: rgba(255, 139, 43, 0.65);
+    background-color: #D6DCE5;
 }
 
 .form-register-single input[type="password"],
@@ -96,6 +97,7 @@
 .delete h1{
     margin-top: 0;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .delete a{
@@ -103,4 +105,8 @@
     display: block;
     text-align: center;
     padding: auto;
+}
+
+.delete input[type="submit"]:hover {
+    background-color: #D6DCE5;
 }

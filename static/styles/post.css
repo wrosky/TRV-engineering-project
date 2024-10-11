@@ -4,7 +4,7 @@
 }
 
 .post-info{
-    background-color: rgba(255, 139, 43, 0.5);
+    background-color: #B4D4FF;
     margin-left: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -25,7 +25,7 @@
     border-radius: 10px;
 }
 .post-comment{
-    background-color: rgba(255, 139, 43, 0.5);
+    background-color: #B4D4FF;
     margin-left: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -39,7 +39,7 @@
 }
 
 .post-comment-single{
-    background-color: rgba(255, 139, 43, 0.5);
+    background-color: #EEF5FF;
     margin-left: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -63,7 +63,7 @@
 .post-comment-form input[type="text"]{
     width: 100%;
     padding: 10px;
-    border: 2px solid rgba(255, 139, 43, 0.5);
+    border: 2px solid #B4D4FF;
     border-radius: 5px;
     font-size: 16px;
     transition: background-color 0.3s, border-color 0.3s;
@@ -71,12 +71,12 @@
 
 .post-comment-form input[type="text"]:focus,
 .post-comment-form input[type="text"]:active{
-    background-color: rgba(255, 139, 43, 0.1);
-    border-color: rgba(255, 139, 43, 1);
+    background-color: #EEF5FF;
+    border-color: #B4D4FF;
 }
 
 .post-users{
-    background-color: rgba(255, 139, 43, 0.5);
+    background-color: #B4D4FF;
     margin-left: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -90,7 +90,7 @@
 }
 
 .post-users-single{
-    background-color: rgba(255, 139, 43, 0.5);
+    background-color: #EEF5FF;
     margin-left: 10px;
     margin-bottom: 10px;
     margin-right: 10px;

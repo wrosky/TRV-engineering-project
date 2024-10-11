@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Post, Topic, Comment, User
-from .forms import PostForm
+from .forms import PostForm, EditUserForm
 
 @login_required(login_url='login')
 def profilePage(request, username):
@@ -166,13 +166,13 @@ def deleteComment(request, pk):
 @login_required(login_url='login')
 def editUser(request):
     user = request.user
-    form = UserCreationForm(instance=user)
+    form = EditUserForm(instance=user)
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST, instance=user)
+        form = EditUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('user_profile', username=user.username)
 
     context = {'form': form}
     return render(request, 'base/edit_user.html', context)

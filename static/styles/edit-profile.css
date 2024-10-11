@@ -1,0 +1,74 @@
+.profile-edit-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-user-edit{
+    background-color: #B4D4FF;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-user-edit input[type="text"],
+.form-user-edit input[type="file"]{
+    font-family: inherit;
+    font-size: inherit;
+    background-color: #EEF5FF;
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.form-group textarea{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-group h3{
+    text-align: center;
+}
+
+.avatar-section{
+    flex: 0 0 200px;
+    text-align: center;
+}
+
+.avatar-section img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.custom-upload-btn {
+    background-color: #EEF5FF;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.custom-upload-btn:hover {
+    background-color: #D6DCE5;
+}

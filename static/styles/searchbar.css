@@ -8,7 +8,7 @@
 .searchbar input[type="text"] {
     width: 100%;
     padding: 10px;
-    border: 2px solid rgba(255, 139, 43, 0.5);
+    border: 2px solid #B4D4FF;
     border-radius: 5px;
     font-size: 16px;
     transition: background-color 0.3s, border-color 0.3s;
@@ -16,6 +16,6 @@
 
 .searchbar input[type="text"]:focus,
 .searchbar input[type="text"]:active {
-    background-color: rgba(255, 139, 43, 0.1);
-    border-color: rgba(255, 139, 43, 1);
+    background-color: #EEF5FF;
+    border-color: #B4D4FF;
 }

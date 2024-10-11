@@ -9,3 +9,13 @@ class PostForm(forms.ModelForm):
         widgets = {
             'image': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
         }
+
+class EditUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'bio', 'avatar']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'avatar': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
+        }

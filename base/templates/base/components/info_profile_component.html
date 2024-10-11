@@ -1,6 +1,14 @@
+{% load static %}
+
 <div class="info-up">
-    <h3>{{user.username}}</h3>
-    <center>
-        <h5>BIO</h5>
-    </center>
+        <div class="avatar">
+            <img src="{{user.avatar.url}}"/>
+        </div>
+    <h2>{{user.username}}</h2>
+    <h4>{{user.bio}}</h4>
+    {% if user == request.user %}
+        <a href="{% url 'edit_user' %}">
+            <img src="{% static 'images/edit-pencil.svg' %}" alt="trash">
+        </a>
+    {% endif %}
 </div>

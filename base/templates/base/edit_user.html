@@ -1,12 +1,34 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h2>Edit Profile</h2>
-<div class="profile-container">
-    <form method="POST" class="form">
+<div class="profile-edit-container">
+    <form method="POST" enctype="multipart/form-data" class="form-user-edit">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <div class="form-group">
+            <div>
+                <h3>Avatar</h3>
+            </div>
+            <div class="avatar-section">
+                <img src="{{ user.avatar.url }}" alt="Current avatar">
+                <div>
+                    <button type="button" class="custom-upload-btn" onclick="document.getElementById('id_avatar').click()">Wybierz plik</button>
+                </div>
+                <input type="file" name="avatar" class="custom-file-input" id="id_avatar" style="display: none;">
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <h3>Name</h3>
+            </div>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <div>
+                <h3>Bio</h3>
+            </div>
+            {{ form.bio }}
+        </div>
+        <button type="submit" class="btn-submit">Save Changes</button>
     </form>
 </div>
 

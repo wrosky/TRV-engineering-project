@@ -9,12 +9,12 @@
             </div>
 
             <!-- <span><a href="{% url 'user_profile' post.host.username %}">{{post.host.username}}</a></span> -->
-            <h3><a href="{% url 'post' post.id %}">{{post.title}}</a></h3>
+            <h2><a href="{% url 'post' post.id %}">{{post.title}}</a></h2>
 
             {% if request.user == post.host %}
 
             <!-- <a href="{% url 'update_post' post.id %}">Edit</a> -->
-            <a href="{% url 'delete_post' post.id %}"><img src="{% static 'images/delete-02-stroke-rounded.svg' %}" alt="trash"></a>
+            <a href="{% url 'delete_post' post.id %}"><img src="{% static 'images/delete-trash.svg' %}" alt="trash"></a>
 
             {% endif %}
         </div>
