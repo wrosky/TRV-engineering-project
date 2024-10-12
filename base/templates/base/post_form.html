@@ -41,10 +41,8 @@
         </div>
 
         <div>
-            <label class="custom-file-label">
-                Add Photos
-            </label>
-            <input type="file" name="image" class="custom-file-input" accept="image/*" id="id_image" style="display: none;">
+            {{ form.image.label_tag }}
+            <input type="file" name="images" multiple>
         </div>
 
         <div>
@@ -52,7 +50,5 @@
         </div>
     </form>
 </div>
-
-<script src="{% static 'js/form.js' %}"></script>
 
 {% endblock %}

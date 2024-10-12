@@ -19,11 +19,21 @@
 }
 
 .post-images {
-    width: 100%;
-    height: auto;
-    max-width: 300px;
-    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+    max-width: 100%;
 }
+
+.post-images img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
 .post-comment{
     background-color: #B4D4FF;
     margin-left: 10px;

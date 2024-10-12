@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Post, Topic, Comment, User
+from .models import Post, Topic, Comment, User, PostImage
 from .forms import PostForm, EditUserForm
 
 @login_required(login_url='login')
@@ -109,12 +109,15 @@ def post(request, pk):
 def createPost(request):
     form = PostForm()
     if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
+        form = PostForm(request.POST)
+        images = request.FILES.getlist('images')  # Collect multiple files here
         if form.is_valid():
             post = form.save(commit=False)
             post.host = request.user
             post.rate = 1
             post.save()
+            for image in images:
+                PostImage.objects.create(post=post, image=image)
             return redirect('home')
 
     context = {'form': form}

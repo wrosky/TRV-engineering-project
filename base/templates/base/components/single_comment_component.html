@@ -5,7 +5,7 @@
     </div>
     <h3>{{comment.body}}</h3>
     <div class="post-comment-single-details">
-        <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user}}</a> {{comment.date_created|timesince}} ago</small>
+        <small><a href="{% url 'user_profile' comment.user.username %}">{{comment.user.username}}</a> {{comment.date_created|timesince}} ago</small>
         {% if request.user == comment.user %}
         <a href="{% url 'delete_comment' comment.id%}"><img src="{% static 'images/delete-trash.svg' %}" alt="trash"></a>
         {% endif %}

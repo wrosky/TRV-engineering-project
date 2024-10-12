@@ -4,11 +4,7 @@ from .models import Post, User
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = '__all__'
-        exclude = ['host', 'participants', 'rate']
-        widgets = {
-            'image': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
-        }
+        fields = ['topic', 'title', 'localisation', 'description', 'image']
 
 class EditUserForm(forms.ModelForm):
     class Meta:
