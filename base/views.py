@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Post, Topic, Comment, User, PostImage
+from .models import Post, Topic, Comment, User, PostImage, FriendList, FriendRequest
 from .forms import PostForm, EditUserForm
 
 @login_required(login_url='login')
@@ -14,8 +14,95 @@ def profilePage(request, username):
     posts = user.post_set.all()
     post_comments = user.comment_set.all()
     topics = Topic.objects.all()
-    context = {'user': user, 'posts': posts, 'post_comments': post_comments, 'topics': topics}
+
+    # Check if the user is viewing their own profile
+    is_own_profile = user == request.user
+
+    # Get the friend list of the user being viewed
+    friend_list = None
+    if is_own_profile:
+        friend_list = request.user.friend_list.friends.all()
+
+    is_friend = False
+    if request.user.friend_list.friends.filter(id=user.id).exists():
+        is_friend = True
+
+    friend_requests = None
+    if is_own_profile:
+        friend_requests = FriendRequest.objects.filter(receiver=request.user, is_active=True)
+
+    context = {
+        'user': user,
+        'posts': posts,
+        'post_comments': post_comments,
+        'topics': topics,
+        'friend_requests': friend_requests,
+        'is_friend': is_friend,
+        'friends': friend_list if is_own_profile else None
+    }
     return render(request, 'base/profile.html', context)
+
+@login_required
+def send_friend_request(request, user_id):
+    sender = request.user
+    receiver = get_object_or_404(User, id=user_id)
+    
+    if sender != receiver:
+        friend_request, created = FriendRequest.objects.get_or_create(sender=sender, receiver=receiver)
+        if created:
+            messages.success(request, f'Friend request sent to {receiver.username}')
+        else:
+            messages.info(request, 'Friend request already sent')
+    else:
+        messages.warning(request, "You can't send a friend request to yourself")
+    
+    return redirect('user_profile', username=receiver.username)
+
+@login_required
+def accept_friend_request(request, request_id):
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    if friend_request.receiver == request.user:
+        friend_request.accept()
+        messages.success(request, f'You are now friends with {friend_request.sender.username}')
+    else:
+        messages.error(request, 'You are not authorized to accept this friend request')
+    
+    return redirect('user_profile', username=friend_request.sender.username)
+
+@login_required
+def decline_friend_request(request, request_id):
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    if friend_request.receiver == request.user:
+        friend_request.decline()
+        messages.info(request, 'Friend request declined')
+    else:
+        messages.error(request, 'You are not authorized to decline this friend request')
+    
+    return redirect('user_profile', username=friend_request.sender.username)
+
+@login_required
+def cancel_friend_request(request, request_id):
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    if friend_request.sender == request.user:
+        friend_request.cancel()
+        messages.info(request, 'Friend request cancelled')
+    else:
+        messages.error(request, 'You are not authorized to cancel this friend request')
+    
+    return redirect('user_profile', username=friend_request.receiver.username)
+
+@login_required
+def remove_friend(request, user_id):
+    friend = get_object_or_404(User, id=user_id)
+    friend_list = FriendList.objects.get(user=request.user)
+    
+    if friend_list.is_mutual_friend(friend):
+        friend_list.unfriend(friend)
+        messages.success(request, f'{friend.username} has been removed from your friends')
+    else:
+        messages.error(request, f'{friend.username} is not in your friend list')
+    
+    return redirect('user_profile', username=friend.username)
 
 def loginPage(request):
     page = 'login'
@@ -43,6 +130,7 @@ def loginPage(request):
     context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
+@login_required(login_url='login')
 def logoutUser(request):
     logout(request)
     return redirect('home')

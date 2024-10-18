@@ -83,6 +83,7 @@
 .form-register-single input[type="password"],
 .form-register-single input[type="text"],
 .form-login-single input[type="password"],
+.form-login-single input[type="email"],
 .form-login-single input[type="text"]{
     border-radius: 15px;
     padding: 10px;

@@ -1,0 +1,37 @@
+{% load static %}
+
+<div class="friend-request-container">
+    <h3>Zaproszenia do znajomych</h3>
+
+    {% for request in friend_requests %}
+    <div class="friend-request-container-comment">
+        <div class="friend-request-content">
+            <div class="avatar">
+                <img src="{{ request.sender.avatar.url }}" />
+            </div>
+            <h4>{{ request.sender.username }}</h4>
+            <div class="friend-request-buttons">
+                {% if request.receiver == user %}
+                    <form method="POST" action="{% url 'accept_friend_request' request.id %}">
+                        {% csrf_token %}
+                        <button type="submit">
+                            <img src="{% static 'images/accept-friend.svg' %}" alt="accept-friend">
+                        </button>
+                    </form>
+                    <form method="POST" action="{% url 'decline_friend_request' request.id %}">
+                        {% csrf_token %}
+                        <button type="submit">
+                            <img src="{% static 'images/decline-friend.svg' %}" alt="decline-friend">
+                        </button>
+                    </form>
+                {% else %}
+                    <form method="POST" action="{% url 'cancel_friend_request' request.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Anuluj zaproszenie</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

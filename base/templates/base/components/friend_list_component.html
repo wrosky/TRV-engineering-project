@@ -1,0 +1,13 @@
+{% load static %}
+
+<div class="friend-list-container">
+    <h3>Friends</h3>
+        {% for friend in friends %}
+            <div class="friend-list-single">
+                <a href="{% url 'user_profile' friend.username %}">
+                    <img src="{{friend.avatar.url}}" />
+                    <span>{{friend.username}}</span>
+                </a>
+            </div>
+        {% endfor %}
+</div>

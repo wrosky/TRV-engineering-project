@@ -8,7 +8,23 @@
     <h4>{{user.bio}}</h4>
     {% if user == request.user %}
         <a href="{% url 'edit_user' %}">
-            <img src="{% static 'images/edit-pencil.svg' %}" alt="trash">
+            <img src="{% static 'images/edit-pencil.svg' %}" alt="edit">
         </a>
+    {% else %}
+        {% if is_friend %}
+            <form method="POST" action="{% url 'remove_friend' user.id %}">
+                {% csrf_token %}
+                <button type="submit">
+                    <img src="{% static 'images/remove-friend.svg' %}" alt="remove-friend">
+                </button>
+            </form>
+        {% else %}
+            <form method="POST" action="{% url 'send_friend_request' user.id %}">
+                {% csrf_token %}
+                <button type="submit">
+                    <img src="{% static 'images/add-friend.svg' %}" alt="add-friend">
+                </button>
+            </form>
+        {% endif %}
     {% endif %}
 </div>

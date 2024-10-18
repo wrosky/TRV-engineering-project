@@ -35,6 +35,14 @@ hr{
     align-items: center;
 }
 
+.info-up button{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
 .info-up h3{
     text-align: center;
 }
@@ -132,4 +140,75 @@ hr{
     height: 50px;
     border-radius: 50%;
     border: 2px solid black;
+}
+
+.friend-request-container{
+    background-color: #B4D4FF;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.friend-request-container button{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.friend-request-container h3{
+    text-align: center;
+}
+
+.friend-request-container-comment{
+    background-color: #EEF5FF;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.friend-request-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.friend-request-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.friend-request-buttons form {
+    display: inline-block;
+}
+
+.friend-list-container{
+    background-color: #B4D4FF;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.friend-list-container h3{
+    text-align: center;
+}
+
+.friend-list-single{
+    background-color: #EEF5FF;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
 }
