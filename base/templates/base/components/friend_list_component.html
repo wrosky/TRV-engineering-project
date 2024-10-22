@@ -5,9 +5,11 @@
         {% for friend in friends %}
             <div class="friend-list-single">
                 <a href="{% url 'user_profile' friend.username %}">
-                    <img src="{{friend.avatar.url}}" />
-                    <span>{{friend.username}}</span>
+                    <div class="avatar">
+                        <img src="{{friend.avatar.url}}" />
+                    </div>
                 </a>
+                <h4>{{friend.username}}</h4>
             </div>
         {% endfor %}
 </div>

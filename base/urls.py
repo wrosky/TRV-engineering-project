@@ -23,6 +23,7 @@ urlpatterns = [
     path('update_post/<str:pk>', views.updatePost, name='update_post'),
     path('delete_post/<str:pk>', views.deletePost, name='delete_post'),
     path('delete_comment/<str:pk>', views.deleteComment, name='delete_comment'),
+    path('like/<str:pk>', views.like, name='like'),
 
     path('send_friend_request/<int:user_id>/', views.send_friend_request, name='send_friend_request'),
     path('accept_friend_request/<int:request_id>/', views.accept_friend_request, name='accept_friend_request'),

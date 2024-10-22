@@ -4,7 +4,9 @@
 
         <div class="activity-container-comment">
             <div class="avatar">
-                <img src="{{comment.user.avatar.url}}" />
+                <a href="{% url 'user_profile' comment.user.username %}">
+                    <img src="{{comment.user.avatar.url}}" />
+                </a>
             </div>
             <h4>{{comment}}</h4>
 

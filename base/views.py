@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Post, Topic, Comment, User, PostImage, FriendList, FriendRequest
+from django.urls import reverse
+from .models import Post, Topic, Comment, User, PostImage, FriendList, FriendRequest, Likes
 from .forms import PostForm, EditUserForm
 
 @login_required(login_url='login')
@@ -180,6 +181,7 @@ def post(request, pk):
     post = Post.objects.get(id=pk)
     post_comments = post.comment_set.all().order_by('-date_created')
     participants = post.participants.all()
+    user_has_liked = Likes.objects.filter(user=request.user, post=post).exists()
 
     if request.method == 'POST':
         comment = Comment.objects.create(
@@ -190,7 +192,7 @@ def post(request, pk):
         post.participants.add(request.user)
         return redirect('post', pk=post.id)
 
-    context = {'post': post, 'post_comments': post_comments, 'participants': participants}
+    context = {'post': post, 'post_comments': post_comments, 'participants': participants, 'user_has_liked': user_has_liked}
     return render(request, 'base/post.html', context)
 
 @login_required(login_url='login')
@@ -253,6 +255,26 @@ def deleteComment(request, pk):
         return redirect('home')
 
     return render(request, 'base/delete.html', {'obj': comment})
+
+@login_required(login_url='login')
+def like(request, pk):
+    user = request.user
+    post = get_object_or_404(Post, id=pk)
+    
+    # Check if the user has already liked the post
+    user_has_liked = Likes.objects.filter(user=user, post=post).exists()
+    
+    if user_has_liked:
+        # If already liked, remove the like
+        Likes.objects.filter(user=user, post=post).delete()
+        post.likes -= 1
+    else:
+        # If not liked yet, add the like
+        Likes.objects.create(user=user, post=post)
+        post.likes += 1
+
+    post.save()
+    return HttpResponseRedirect(reverse('post', args=[str(pk)]))
 
 @login_required(login_url='login')
 def editUser(request):

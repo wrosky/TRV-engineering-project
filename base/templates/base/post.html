@@ -14,6 +14,17 @@
                     <img src="{{ image.image.url }}" class="post-image" onclick="openLightbox(this)" />
                 {% endfor %}
             </div>
+
+            <div class="post-likes">
+                <a href="{% url 'like' post.id %}">
+                    {% if user_has_liked %}
+                        <img src="{% static 'images/unlike.svg' %}" alt="dislike">
+                    {% else %}
+                        <img src="{% static 'images/like.svg' %}" alt="like">
+                    {% endif %}
+                </a>
+                <h3>{{post.likes}}</h3>
+            </div>
             
             <!-- Lightbox container -->
             <div id="lightbox" class="lightbox" onclick="closeLightbox()">

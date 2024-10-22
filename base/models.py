@@ -84,6 +84,7 @@ class Post(models.Model):
     participants = models.ManyToManyField(User, related_name='participants', blank=True)
     rate = models.IntegerField()
     image = models.ImageField(upload_to='posts/', blank=True, null=True)
+    likes = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-date_created']
@@ -106,3 +107,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.body[0:25]
+
+class Likes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_likes')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_likes')
+
+    def __str__(self):
+        return self.user.username
