@@ -3,8 +3,6 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
 from django.utils import timezone
 
-# Create your models here.
-
 class User(AbstractUser):
     name = models.CharField(max_length=100, null=True)
     email = models.EmailField(unique=True)
@@ -114,3 +112,37 @@ class Likes(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class ChatGroup(models.Model):
+    group_name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.group_name
+
+class GroupMessage(models.Model):
+    group = models.ForeignKey(ChatGroup, related_name='chat_messages', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.CharField(max_length=300)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return f'{self.author.username} : {self.body}'
+
+class PrivateChat(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chats_initiated')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chats_received')
+
+    def __str__(self):
+        return f"Chat between {self.user1.username} and {self.user2.username}"
+
+class PrivateMessage(models.Model):
+    chat = models.ForeignKey(PrivateChat, related_name='messages', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.CharField(max_length=300)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.author.username}: {self.body}"

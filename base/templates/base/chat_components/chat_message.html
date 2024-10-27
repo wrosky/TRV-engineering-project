@@ -1,0 +1,19 @@
+<div class="chat-message {% if message.author == user %}chat-message-right{% else %}chat-message-left{% endif %}">
+    <div class="avatar">
+        <a href="{% url 'user_profile' message.author.username %}">
+            <img src="{{ message.author.avatar.url }}" alt="avatar">
+        </a>
+    </div>
+    <div class="message-content">
+        <div class="message-author">
+            {{ message.author.profile.name }}
+            <span class="message-username">@{{ message.author.username }}</span>
+        </div>
+        <div class="message-text">
+            {{ message.body }}
+        </div>
+        <div class="message-meta">
+            <span>{{ message.created|date:"Y-m-d H:i" }}</span>
+        </div>
+    </div>
+</div>

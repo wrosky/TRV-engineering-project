@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
-from .models import Post, Topic, Comment, User, PostImage, FriendList, FriendRequest, Likes
-from .forms import PostForm, EditUserForm
+from .models import *
+from .forms import *
 
 @login_required(login_url='login')
 def profilePage(request, username):
@@ -16,10 +16,8 @@ def profilePage(request, username):
     post_comments = user.comment_set.all()
     topics = Topic.objects.all()
 
-    # Check if the user is viewing their own profile
     is_own_profile = user == request.user
 
-    # Get the friend list of the user being viewed
     friend_list = None
     if is_own_profile:
         friend_list = request.user.friend_list.friends.all()
@@ -200,7 +198,7 @@ def createPost(request):
     form = PostForm()
     if request.method == 'POST':
         form = PostForm(request.POST)
-        images = request.FILES.getlist('images')  # Collect multiple files here
+        images = request.FILES.getlist('images')
         if form.is_valid():
             post = form.save(commit=False)
             post.host = request.user
@@ -261,15 +259,12 @@ def like(request, pk):
     user = request.user
     post = get_object_or_404(Post, id=pk)
     
-    # Check if the user has already liked the post
     user_has_liked = Likes.objects.filter(user=user, post=post).exists()
     
     if user_has_liked:
-        # If already liked, remove the like
         Likes.objects.filter(user=user, post=post).delete()
         post.likes -= 1
     else:
-        # If not liked yet, add the like
         Likes.objects.create(user=user, post=post)
         post.likes += 1
 
@@ -289,3 +284,56 @@ def editUser(request):
 
     context = {'form': form}
     return render(request, 'base/edit_user.html', context)
+
+@login_required(login_url='login')
+def friend_chats(request):
+    friend_list = request.user.friend_list.friends.all()
+    return render(request, 'base/chat_components/friend_chats.html', {'friend_list': friend_list})
+
+@login_required(login_url='login')
+def chat(request):
+    chat_group = get_object_or_404(ChatGroup, group_name='public-chat')
+    chat_messages = chat_group.chat_messages.all()[:30]
+    form = ChatmessageCreateForm()
+
+    if request.htmx:
+        form = ChatmessageCreateForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.author = request.user
+            message.group = chat_group
+            message.save()
+            context = {
+                'message': message,
+                'user': request.user
+            }
+            return render(request, 'base/chat_components/chat_message_p.html', context)
+
+    return render(request, 'base/chat_components/chat.html', {'chat_messages': chat_messages, 'form': form})
+
+@login_required(login_url='login')
+def private_chat(request, friend_id):
+    friend = get_object_or_404(User, id=friend_id)
+
+    chat = PrivateChat.objects.filter(
+        user1=request.user, user2=friend
+    ).first() or PrivateChat.objects.filter(
+        user1=friend, user2=request.user
+    ).first()
+    
+    if not chat:
+        chat = PrivateChat.objects.create(user1=request.user, user2=friend)
+
+    messages = chat.messages.all()
+    form = PrivateMessageCreateForm()
+
+    if request.method == 'POST' and request.htmx:
+        form = PrivateMessageCreateForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.chat = chat
+            message.author = request.user
+            message.save()
+            return render(request, 'base/chat_components/chat_message_p.html', {'message': message, 'user': request.user})
+
+    return render(request, 'base/chat_components/private_chat.html', {'chat': chat, 'messages': messages, 'friend': friend, 'form': form})

@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<center>
+    <h2>Wybierz znajomego, aby rozpocząć czat:</h2>
+    <h3>Friends</h3>
+</center>
+
+<div class="friend-list-container">
+        {% for friend in friend_list %}
+            <div class="friend-list-single">
+                <div class="avatar">
+                    <img src="{{friend.avatar.url}}" />
+                </div>
+                <a href="{% url 'private_chat' friend.id %}">
+                    <img src="{% static 'images/message.svg' %}" alt="message">
+                </a>
+                <h4>{{friend.username}}</h4>
+            </div>
+        {% endfor %}
+</div>
+{% endblock %}

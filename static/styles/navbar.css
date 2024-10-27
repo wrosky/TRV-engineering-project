@@ -8,8 +8,8 @@
 
 .navbar-container-right{
     display: flex;
-    align-items: right;
     margin-left: auto;
+    align-items: center;
 }
 
 .edit-user-button,

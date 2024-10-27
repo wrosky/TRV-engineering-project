@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Post, Topic, Comment, User, FriendRequest, FriendList
+from .models import *
 
 class FriendListAdmin(admin.ModelAdmin):
     search_fields = ['user']
@@ -18,6 +18,10 @@ admin.site.register(Post)
 admin.site.register(Topic)
 admin.site.register(Comment)
 admin.site.register(FriendList, FriendListAdmin)
+admin.site.register(ChatGroup)
+admin.site.register(GroupMessage)
+admin.site.register(PrivateChat)
+admin.site.register(PrivateMessage)
 
 class FriendRequestAdmin(admin.ModelAdmin):
     search_fields = ['sender__email', 'receiver__email', 'sender__username', 'receiver__username']

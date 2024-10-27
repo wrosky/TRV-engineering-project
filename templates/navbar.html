@@ -3,16 +3,19 @@
 <div class="navbar-container">
     <div style="display: flex; align-items: center;">
         <a href="/" style="margin-right: 20px; margin-left: 10px;">
-            <h1>HOME</h1>
+            <img src="{% static 'images/home.svg' %}" alt="home">
         </a>
-        <a href="/" style="margin-right: 20px; margin-left: 10px;"></a>
-            <h1>TRAV SPACE</h1>
+        <a href="/" style="margin-right: 20px; margin-left: 20px;">
+            <img src="{% static 'images/notebook.svg' %}" alt="notebook">
         </a>
     </div>
     
     {% include 'searchbar.html' %}
     
     <div class="navbar-container-right">
+        <a href="{% url 'friend_chats' %}" style="margin-right: 20px; margin-left: 20px;">
+            <img src="{% static 'images/chat.svg' %}" alt="notebook">
+        </a>
         {% if request.user.is_authenticated %}
         <div class="dropdown">
             <div class="navbar-avatar">

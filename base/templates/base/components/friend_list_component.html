@@ -9,6 +9,9 @@
                         <img src="{{friend.avatar.url}}" />
                     </div>
                 </a>
+                <a href="{% url 'private_chat' friend.id %}">
+                    <img src="{% static 'images/message.svg' %}" alt="message">
+                </a>
                 <h4>{{friend.username}}</h4>
             </div>
         {% endfor %}

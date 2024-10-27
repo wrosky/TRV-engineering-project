@@ -9,18 +9,25 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;400;600;900&display=swap" rel="stylesheet">
         <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+        <script src="https://unpkg.com/hyperscript.org@0.9.13"></script>
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/main.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/form.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/searchbar.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/navbar.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/post.css' %}?v=1.0">
         <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/edit-profile.css' %}?v=1.0">
+        <link rel='stylesheet' type='text/css' media='screen' href="{% static 'styles/chat.css' %}?v=1.0">
     </head>
 
     <body>
         {% include 'navbar.html' %}
         
         {% block content %}
+
+        {% endblock %}
+
+        {% block javascript %}
 
         {% endblock %}
     </body>

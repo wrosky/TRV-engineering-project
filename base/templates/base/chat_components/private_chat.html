@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h2>Czat z {{ friend.username }}</h2>
+<div class="chat-container">
+    <div id="chat_messages">
+        {% for message in messages %}
+            {% include 'base/chat_components/chat_message.html' %}
+        {% endfor %}
+    </div>
+
+    <div class="chat-input">
+        <form
+            hx-post="{% url 'private_chat' friend.id %}" 
+            hx-target="#chat_messages" 
+            hx-swap="beforeend"
+            _="on htmx:afterRequest reset() me">
+            {% csrf_token %}
+            {{ form }}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+    document.addEventListener("htmx:afterSwap", (event) => {
+        if (event.detail.target.id === "chat_messages") {
+            event.detail.target.scrollTop = event.detail.target.scrollHeight;
+        }
+    });
+
+    function scrollToBottom() {
+        const container = document.getElementById('chat_messages');
+        container.scrollTop = container.scrollHeight;
+    }
+    scrollToBottom();
+</script>
+    
+{% endblock %}

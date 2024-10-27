@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="chat-container">
+    <div id="chat_messages">
+        {% for message in chat_messages reversed %}
+            {% include 'base/chat_components/chat_message.html' %}
+        {% endfor %}
+    </div>
+
+    <div class="chat-input">
+        <form
+        hx-post="{% url 'chat' %}" 
+        hx-target="#chat_messages" 
+        hx-swap="beforeend"
+        _="on htmx:afterRequest reset() me">
+            {% csrf_token %}
+            {{ form }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}
