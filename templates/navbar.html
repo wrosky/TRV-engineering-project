@@ -5,8 +5,11 @@
         <a href="/" style="margin-right: 20px; margin-left: 10px;">
             <img src="{% static 'images/home.svg' %}" alt="home">
         </a>
-        <a href="/" style="margin-right: 20px; margin-left: 20px;">
+        <a href="{% url 'list_trips' %}" style="margin-right: 20px; margin-left: 20px;">
             <img src="{% static 'images/notebook.svg' %}" alt="notebook">
+        </a>
+        <a href="{% url 'search_flight' %}" style="margin-right: 20px; margin-left: 20px;">
+            <img src="{% static 'images/airplane.svg' %}" alt="airplane">
         </a>
     </div>
     

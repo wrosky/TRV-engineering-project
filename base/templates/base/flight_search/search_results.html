@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .result-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .segment-info {
+            margin-bottom: 10px;
+        }
+        .price {
+            font-size: 1.5em;
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Flight Search Results</h2>
+        {% if flights %}
+            {% for flight in flights %}
+                <div class="result-card">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>Itineraries</h4>
+                            {% for itinerary in flight.itineraries %}
+                                <div class="itinerary mb-3">
+                                    <h5>Itinerary {{ forloop.counter }}:</h5>
+                                    {% for segment in itinerary.segments %}
+                                        <div class="segment-info">
+                                            <strong>From:</strong> {{ segment.departure.iataCode }} at {{ segment.departure.at }}<br>
+                                            <strong>To:</strong> {{ segment.arrival.iataCode }} at {{ segment.arrival.at }}<br>
+                                            <strong>Carrier:</strong> {{ segment.carrierCode }}<br>
+                                            <strong>Flight Number:</strong> {{ segment.number }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <div class="price">{{ flight.price.total }} {{ flight.price.currency }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No flights found.</p>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

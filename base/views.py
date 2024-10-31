@@ -6,8 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from amadeus import Client, ResponseError
+from django.conf import settings
 from .models import *
 from .forms import *
+
+amadeus = Client(
+    client_id=settings.AMADEUS_CLIENT_ID,
+    client_secret=settings.AMADEUS_CLIENT_SECRET
+)
 
 @login_required(login_url='login')
 def profilePage(request, username):
@@ -337,3 +344,91 @@ def private_chat(request, friend_id):
             return render(request, 'base/chat_components/chat_message_p.html', {'message': message, 'user': request.user})
 
     return render(request, 'base/chat_components/private_chat.html', {'chat': chat, 'messages': messages, 'friend': friend, 'form': form})
+
+@login_required(login_url='login')
+def create_trip(request):
+    if request.method == 'POST':
+        form = TripForm(request.POST)
+        if form.is_valid():
+            trip = form.save(commit=False)
+            trip.author = request.user
+            trip.save()
+            form.save_m2m()
+            return redirect('trip_detail', pk=trip.pk)
+    else:
+        form = TripForm()
+    return render(request, 'base/trip_planner/create_trip.html', {'form': form})
+
+@login_required(login_url='login')
+def update_trip(request, pk):
+    trip = Trip.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = TripForm(request.POST, instance=trip)
+        if form.is_valid():
+            trip = form.save(commit=False)
+            trip.author = request.user
+            trip.save()
+            form.save_m2m()
+            return redirect('trip_detail', pk=trip.pk)
+    else:
+        form = TripForm(instance=trip)
+    return render(request, 'base/trip_planner/update_trip.html', {'form': form})
+
+@login_required(login_url='login')
+def trip_detail(request, pk):
+    trip = Trip.objects.get(pk=pk)
+    return render(request, 'base/trip_planner/trip_detail.html', {'trip': trip})
+
+@login_required(login_url='login')
+def list_trips(request):
+    trips = Trip.objects.filter(author=request.user)
+    return render(request, 'base/trip_planner/list_trips.html', {'trips': trips})
+
+@login_required(login_url='login')
+def search_flight(request):
+    if request.method == 'POST':
+        origin = request.POST.get('from')
+        destination = request.POST.get('to')
+        departure_date = request.POST.get('departure_date')
+        return_date = request.POST.get('return_date')
+        
+        try:
+            response = amadeus.shopping.flight_offers_search.get(
+                originLocationCode=origin,
+                destinationLocationCode=destination,
+                departureDate=departure_date,
+                returnDate=return_date,
+                adults=1
+            )
+            flights = response.data
+        except ResponseError as error:
+            flights = []
+            print(error)
+
+        return render(request, 'base/flight_search/search_results.html', {'flights': flights})
+
+    return render(request, 'base/flight_search/search_flight.html')
+
+@login_required(login_url='login')
+def airport_autocomplete(request):
+    query = request.GET.get('term', '')
+    if query:
+        try:
+            response = amadeus.reference_data.locations.get(
+                keyword=query,
+                subType='AIRPORT,CITY'
+            )
+            suggestions = [
+                {
+                    'label': f"{result['iataCode']} - {result['name']} ({result['address']['cityName']})",
+                    'value': result['iataCode']
+                }
+                for result in response.data
+            ]
+        except ResponseError as error:
+            suggestions = []
+            print(f"API Error: {error}")
+    else:
+        suggestions = []
+
+    return JsonResponse(suggestions, safe=False)

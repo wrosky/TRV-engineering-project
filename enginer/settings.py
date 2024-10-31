@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_htmx',
+    'django_select2',
+    'django_countries',
 
     'base.apps.BaseConfig',
 ]
@@ -144,3 +146,6 @@ EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+AMADEUS_CLIENT_ID = config('AMADEUS_CLIENT_ID')
+AMADEUS_CLIENT_SECRET = config('AMADEUS_CLIENT_SECRET')

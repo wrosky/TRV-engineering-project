@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div class="form-trip-create-post">
+    <h2>{{ trip.title }}</h2>
+    <p><strong>Country:</strong> {{ trip.country }}</p>
+    <p><strong>Location:</strong> {{ trip.location }}</p>
+    <p><strong>Start Date:</strong> {{ trip.start_date }}</p>
+    <p><strong>End Date:</strong> {{ trip.end_date }}</p>
+    <p><strong>Total Price:</strong> {{ trip.total_price }} PLN</p>
+    <a href="{% url 'update_trip' pk=trip.pk %}" class="btn-submit">Edit Trip</a>
+  </div>
+{% endblock %}

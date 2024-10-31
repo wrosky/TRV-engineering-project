@@ -1,0 +1,62 @@
+.form-trip-create-post{
+    background-color: #B4D4FF;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-trip-create-post input[type="text"],
+.form-trip-create-post input[type="number"],
+.form-trip-create-post input[type="date"],
+.form-trip-create-post input[type="datetime-local"],
+.form-trip-create-post select,
+.form-trip-create-post textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #B4D4FF;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-trip-create-post input[type="checkbox"] {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.form-trip-create-post label[for="checkbox"] {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 16px;
+}
+
+.form-trip-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form-trip-group {
+    flex: 1;
+    margin-right: 15px;
+}
+
+.form-trip-group:last-child {
+    margin-right: 0;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}

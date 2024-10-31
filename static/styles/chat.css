@@ -27,10 +27,6 @@
     flex-direction: row-reverse;
 }
 
-/* .chat-message-right .message-content {
-    background-color: #D6DCE5;
-} */
-
 .chat-message-right .avatar {
     margin-right: 0;
     margin-left: 10px;
@@ -40,7 +36,6 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .message-content {

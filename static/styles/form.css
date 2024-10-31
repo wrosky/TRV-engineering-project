@@ -49,8 +49,8 @@
     border-radius: 15px;
     cursor: pointer;
     display: block;
-    width: 100%;
-    margin-top: 10px;
+    width: calc(100% - 15px);
+    margin: auto;
 }
 
 .form-register input[type="submit"]:hover,

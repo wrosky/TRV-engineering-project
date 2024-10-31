@@ -237,3 +237,20 @@ hr{
     border-radius: 50%;
     border: 2px solid black;
 }
+
+.formset-container {
+    margin-top: 20px;
+}
+  
+.formset-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
+#add-attraction {
+    margin-top: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

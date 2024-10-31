@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
 from django.utils import timezone
+from django_countries.fields import CountryField
 
 class User(AbstractUser):
     name = models.CharField(max_length=100, null=True)
@@ -146,3 +147,57 @@ class PrivateMessage(models.Model):
 
     def __str__(self):
         return f"{self.author.username}: {self.body}"
+
+class Trip(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    country = CountryField()
+    location = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    num_days = models.PositiveIntegerField(default=0)
+
+    flight_from = models.CharField(max_length=100, null=True, blank=True)
+    flight_from_airport = models.CharField(max_length=100, null=True, blank=True)
+    flight_to = models.CharField(max_length=100, null=True, blank=True)
+    flight_to_airport = models.CharField(max_length=100, null=True, blank=True)
+
+    flight_back_from = models.CharField(max_length=100, null=True, blank=True)
+    flight_back_from_airport = models.CharField(max_length=100, null=True, blank=True)
+    flight_back_to = models.CharField(max_length=100, null=True, blank=True)
+    flight_back_to_airport = models.CharField(max_length=100, null=True, blank=True)
+
+    flight_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    car_time = models.DurationField(null=True, blank=True)
+    car_price_per_person = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    accommodation_name = models.CharField(max_length=100)
+    accommodation_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    transport_type = models.CharField(max_length=100)
+    transport_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    visa_required = models.BooleanField(default=False)
+    visa_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
+
+    total_price = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+
+    def save(self, *args, **kwargs):
+        self.flight_price = self.flight_price or 0
+        self.car_price_per_person = self.car_price_per_person or 0
+        self.accommodation_price = self.accommodation_price or 0
+        self.transport_price = self.transport_price or 0
+        self.visa_price = self.visa_price or 0
+
+        self.total_price = (
+            self.flight_price +
+            self.car_price_per_person +
+            self.accommodation_price +
+            self.transport_price +
+            self.visa_price
+        )
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title

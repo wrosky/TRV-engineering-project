@@ -1,0 +1,11 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div class="form-trip-create-post">
+    <h2>Update Trip</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-submit">Save</button>
+    </form>
+  </div>
+{% endblock %}

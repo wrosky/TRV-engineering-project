@@ -1,0 +1,89 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Create a New Trip</h2>
+    <div class="form-trip-create-post">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.country.label_tag }} {{ form.country }}
+                </div>
+                <div class="form-trip-group">
+                {{ form.location.label_tag }} {{ form.location }}
+                </div>
+            </div>
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.start_date.label_tag }} {{ form.start_date }}
+                </div>
+                <div class="form-trip-group">
+                {{ form.end_date.label_tag }} {{ form.end_date }}
+                </div>
+            </div>
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.flight_from.label_tag }} {{ form.flight_from }}
+                </div>
+                <div class="form-trip-group">
+                {{ form.flight_from_airport.label_tag }} {{ form.flight_from_airport }}
+                </div>
+            </div>
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.flight_to.label_tag }} {{ form.flight_to }}
+                </div>
+                <div class="form-trip-group">
+                {{ form.flight_to_airport.label_tag }} {{ form.flight_to_airport }}
+                </div>
+            </div>
+
+            <div class="form-trip-group">
+                {{ form.flight_price.label_tag }} {{ form.flight_price }}
+            </div>
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.car_time.label_tag }} {{ form.car_time }}
+                </div>
+                <div class="form-trip-group">
+                {{ form.car_price_per_person.label_tag }} {{ form.car_price_per_person }}
+                </div>
+            </div>
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.accommodation_name.label_tag }} {{ form.accommodation_name }}
+                </div>
+                <div class="form-trip-group">
+                {{ form.accommodation_price.label_tag }} {{ form.accommodation_price }}
+                </div>
+            </div>
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.transport_type.label_tag }} {{ form.transport_type }}
+                </div>
+
+                <div class="form-trip-group">
+                {{ form.transport_price.label_tag }} {{ form.transport_price }}
+                </div>
+            </div>
+
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.visa_required.label_tag }} {{ form.visa_required }}
+                </div>
+
+                <div class="form-trip-group">
+                {{ form.visa_price.label_tag }} {{ form.visa_price }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Save</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,5 +1,7 @@
 from django import forms
 from .models import *
+from django_select2.forms import Select2Widget
+from django_countries.fields import CountryField
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -30,4 +32,42 @@ class PrivateMessageCreateForm(forms.ModelForm):
         fields = ['body']
         widgets = {
             'body': forms.TextInput(attrs={'placeholder': 'Napisz wiadomość...', 'label': ''}),
+        }
+
+class TripForm(forms.ModelForm):
+    class Meta:
+        model = Trip
+        fields = [
+            'title',
+            'country',
+            'location',
+            'start_date',
+            'end_date',
+            'flight_from',
+            'flight_from_airport',
+            'flight_to',
+            'flight_to_airport',
+            'flight_back_from',
+            'flight_back_from_airport',
+            'flight_back_to',
+            'flight_back_to_airport',
+            'flight_price',
+            'car_time',
+            'car_price_per_person',
+            'accommodation_name',
+            'accommodation_price',
+            'transport_type',
+            'transport_price',
+            'visa_required',
+            'visa_price',
+        ]
+        widgets = {
+            'country': Select2Widget(attrs={'data-placeholder': 'Select a country...'}),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+            'flight_from': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'flight_to': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'flight_back_from': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'flight_back_to': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'car_time': forms.Select(choices=[(str(i), f'{i}h') for i in range(1, 24)], attrs={'class': 'car-time'}),
         }

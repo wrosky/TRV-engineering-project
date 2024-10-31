@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div class="form-trip-create-post">
+    <h2>My Trips</h2>
+    <ul>
+      {% for trip in trips %}
+        <li><a href="{% url 'trip_detail' pk=trip.pk %}">{{ trip.title }}</a></li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'create_trip' %}" class="btn-submit">Create a new trip</a>
+  </div>
+{% endblock %}
