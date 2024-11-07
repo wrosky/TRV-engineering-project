@@ -8,6 +8,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from amadeus import Client, ResponseError
 from django.conf import settings
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+import os
 from .models import *
 from .forms import *
 
@@ -21,7 +26,6 @@ def profilePage(request, username):
     user = get_object_or_404(User, username=username)
     posts = user.post_set.all()
     post_comments = user.comment_set.all()
-    topics = Topic.objects.all()
 
     is_own_profile = user == request.user
 
@@ -41,7 +45,6 @@ def profilePage(request, username):
         'user': user,
         'posts': posts,
         'post_comments': post_comments,
-        'topics': topics,
         'friend_requests': friend_requests,
         'is_friend': is_friend,
         'friends': friend_list if is_own_profile else None
@@ -169,16 +172,14 @@ def registerPage(request):
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     posts = Post.objects.filter(
-        Q(topic__name__icontains=q) |
         Q(title__icontains=q) |
-        Q(localisation__icontains=q)
+        Q(country__icontains=q) |
+        Q(city__icontains=q)
         )
 
-    topics = Topic.objects.all()
     post_count = posts.count()
-    post_comments = Comment.objects.filter(Q(post__topic__name__icontains=q))
 
-    context = {'posts': posts, 'topics': topics, 'post_count': post_count, 'post_comments': post_comments}
+    context = {'posts': posts, 'post_count': post_count}
     return render(request, 'base/home.html', context)
 
 @login_required(login_url='login')
@@ -209,7 +210,6 @@ def createPost(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.host = request.user
-            post.rate = 1
             post.save()
             for image in images:
                 PostImage.objects.create(post=post, image=image)
@@ -234,6 +234,39 @@ def updatePost(request, pk):
 
     context = {'form': form}
     return render(request, 'base/post_form.html', context)
+
+@login_required(login_url='login')
+def download_trip_pdf(request, pk):
+    trip = Trip.objects.get(pk=pk)
+
+    font_path = os.path.join(settings.BASE_DIR, "static", "fonts", "Arial.ttf")
+    pdfmetrics.registerFont(TTFont('Arial', font_path))
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="trip_{trip.title}.pdf"'
+    
+    p = canvas.Canvas(response, pagesize=A4)
+    p.setFont("Arial", 12)
+
+    p.drawString(100, 800, f"{trip.title}")
+    p.drawString(100, 780, f"Country: {trip.country}")
+    p.drawString(100, 760, f"Location: {trip.location}")
+    p.drawString(100, 740, f"Start Date: {trip.start_date}")
+    p.drawString(100, 720, f"End Date: {trip.end_date}")
+    p.drawString(100, 700, f"Flight From: {trip.flight_from} " f"Airport: {trip.flight_from_airport}")
+    p.drawString(100, 680, f"Flight To: {trip.flight_to} " f"Airport: {trip.flight_to_airport}")
+    p.drawString(100, 660, f"Flight From: {trip.flight_back_from} " f"Airport: {trip.flight_back_from_airport}")
+    p.drawString(100, 640, f"Flight To: {trip.flight_back_to} " f"Airport: {trip.flight_back_to_airport}")
+    p.drawString(100, 620, f"Flight Price: {trip.flight_price} PLN")
+    p.drawString(100, 600, f"Accommodation: {trip.accommodation_name}")
+    p.drawString(100, 580, f"Accommodation Price: {trip.accommodation_price} PLN")
+    
+    p.drawString(100, 560, f"Total Price: {trip.total_price} PLN")
+    
+    p.showPage()
+    p.save()
+    
+    return response
 
 @login_required(login_url='login')
 def deletePost(request, pk):

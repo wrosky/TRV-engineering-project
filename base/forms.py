@@ -6,7 +6,10 @@ from django_countries.fields import CountryField
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['topic', 'title', 'localisation', 'description', 'image']
+        fields = ['country', 'city', 'image', 'description', 'note', 'rate']
+        widgets = {
+            'rate': forms.RadioSelect(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
+        }
 
 class EditUserForm(forms.ModelForm):
     class Meta:
@@ -52,8 +55,6 @@ class TripForm(forms.ModelForm):
             'flight_back_to',
             'flight_back_to_airport',
             'flight_price',
-            'car_time',
-            'car_price_per_person',
             'accommodation_name',
             'accommodation_price',
             'transport_type',
@@ -69,5 +70,4 @@ class TripForm(forms.ModelForm):
             'flight_to': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'flight_back_from': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'flight_back_to': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'car_time': forms.Select(choices=[(str(i), f'{i}h') for i in range(1, 24)], attrs={'class': 'car-time'}),
         }

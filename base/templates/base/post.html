@@ -7,12 +7,37 @@
 <div class="post-container">
     <div>
         <div class="post-info">
-            <h1>{{post.title}}</h1>
-            <p>{{post.description}}</p>
+            <h1>{{post.city}}</h1>
+            <h2>{{post.country}}</h2>
             <div class="post-images">
-                {% for image in post.images.all %}
-                    <img src="{{ image.image.url }}" class="post-image" onclick="openLightbox(this)" />
-                {% endfor %}
+                <div class="swiper-container post-images">
+                    <div class="swiper-wrapper">
+                        {% for image in post.images.all %}
+                            <div class="swiper-slide">
+                                <img src="{{ image.image.url }}" class="post-image" onclick="openLightbox(this)">
+                            </div>
+                        {% endfor %}
+                    </div>
+                
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <p>{{post.description}}</p>
+            <p>{{post.note}}</p>
+            <div class="post-rating">
+                <div class="star-rating-display">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= post.rate %}
+                            <span class="star filled">★</span>
+                        {% else %}
+                            <span class="star">★</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
 
             <div class="post-likes">
@@ -57,7 +82,7 @@
         {% endif %}
     </div>
 
-    <div class="post-users">
+    <!-- <div class="post-users">
         <h1>Users</h1>
 
         {% for user in participants %}
@@ -68,9 +93,23 @@
 
         {% endfor %}
 
-    </div>
+    </div> -->
 </div>
 
 <script src="{% static 'js/lightbox.js' %}"></script>
+
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+</script>
 
 {% endblock %}

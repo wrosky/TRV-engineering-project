@@ -15,7 +15,6 @@ class FriendListAdmin(admin.ModelAdmin):
 
 admin.site.register(User)
 admin.site.register(Post)
-admin.site.register(Topic)
 admin.site.register(Comment)
 admin.site.register(FriendList, FriendListAdmin)
 admin.site.register(ChatGroup)

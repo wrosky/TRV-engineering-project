@@ -5,6 +5,10 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
+            <div class="form-trip-group">
+                {{ form.title.label_tag }} {{ form.title }}
+            </div>
+
             <div class="form-trip-row">
                 <div class="form-trip-group">
                 {{ form.country.label_tag }} {{ form.country }}
@@ -41,17 +45,26 @@
                 </div>
             </div>
 
-            <div class="form-trip-group">
-                {{ form.flight_price.label_tag }} {{ form.flight_price }}
+            <div class="form-trip-row">
+                <div class="form-trip-group">
+                {{ form.flight_back_from.label_tag }} {{ form.flight_back_from }}
+                </div>
+                <div class="form-trip-group">
+                {{ form.flight_back_from_airport.label_tag }} {{ form.flight_back_from_airport }}
+                </div>
             </div>
 
             <div class="form-trip-row">
                 <div class="form-trip-group">
-                {{ form.car_time.label_tag }} {{ form.car_time }}
+                {{ form.flight_back_to.label_tag }} {{ form.flight_back_to }}
                 </div>
                 <div class="form-trip-group">
-                {{ form.car_price_per_person.label_tag }} {{ form.car_price_per_person }}
+                {{ form.flight_back_to_airport.label_tag }} {{ form.flight_back_to_airport }}
                 </div>
+            </div>
+
+            <div class="form-trip-group">
+                {{ form.flight_price.label_tag }} {{ form.flight_price }}
             </div>
 
             <div class="form-trip-row">

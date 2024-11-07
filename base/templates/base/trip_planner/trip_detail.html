@@ -8,5 +8,6 @@
     <p><strong>End Date:</strong> {{ trip.end_date }}</p>
     <p><strong>Total Price:</strong> {{ trip.total_price }} PLN</p>
     <a href="{% url 'update_trip' pk=trip.pk %}" class="btn-submit">Edit Trip</a>
+    <a href="{% url 'download_trip_pdf' pk=trip.pk %}" class="btn-submit" style="margin-top: 15px;">Download as PDF for all details</a>
   </div>
 {% endblock %}

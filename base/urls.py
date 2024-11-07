@@ -39,6 +39,8 @@ urlpatterns = [
     path('trips/create/', views.create_trip, name='create_trip'),
     path('trips/<int:pk>/', views.trip_detail, name='trip_detail'),
     path('trips/<int:pk>/update/', views.update_trip, name='update_trip'),
+    path('trip/<int:pk>/download_pdf/', views.download_trip_pdf, name='download_trip_pdf'),
+
 
     path('search-flight/', views.search_flight, name='search_flight'),
     path('airport-autocomplete/', views.airport_autocomplete, name='airport_autocomplete'),

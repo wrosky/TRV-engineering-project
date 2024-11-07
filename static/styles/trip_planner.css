@@ -60,3 +60,53 @@ label {
     margin-bottom: 5px;
     display: block;
 }
+
+.ui-autocomplete {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #003366;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    z-index: 2000;
+    position: absolute;
+    border-radius: 4px;
+    padding: 5px 0;
+}
+
+.ui-menu-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #003366;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+.ui-menu-item:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+}
+
+.form-trip-create-post {
+    position: relative;
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
+
+.trip-item {
+    background-color: #E9F3FF;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.trip-item a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}

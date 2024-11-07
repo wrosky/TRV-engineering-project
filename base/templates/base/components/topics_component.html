@@ -1,20 +1,3 @@
 <div class="browse-topic-container">
     <h3 class="browse-title-container">Browse Topics</h3>
-    
-    <div class="browse-topic-container-topics">
-        <div>
-            <h5><a href="{% url 'home' %}">All</a></h5>
-        </div>
-
-        {% for topic in topics %}
-
-            <div class="browse-topic-name">
-                <a href="{% url 'home' %}?q={{topic.name}}" class="browse-topic-name">
-                    <h5>{{topic.name}}</h5>
-                </a>
-            </div>
-
-        {% endfor %}
-    </div>
-
 </div>
