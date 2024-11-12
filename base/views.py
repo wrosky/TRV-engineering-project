@@ -51,6 +51,22 @@ def profilePage(request, username):
     }
     return render(request, 'base/profile.html', context)
 
+@login_required(login_url='login')
+def search_non_friends(request):
+    query = request.GET.get('q', '')
+    user = request.user
+    friends = user.friend_list.friends.all()
+
+    if query:
+        non_friends = User.objects.filter(
+            Q(username__icontains=query) | Q(name__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query)
+        ).exclude(id__in=friends.values_list('id', flat=True)).exclude(id=user.id)
+    else:
+        non_friends = User.objects.none()
+
+    context = {'non_friends': non_friends, 'query': query}
+    return render(request, 'base/search_non_friends.html', context)
+
 @login_required
 def send_friend_request(request, user_id):
     sender = request.user
@@ -169,16 +185,19 @@ def registerPage(request):
     context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
+@login_required(login_url='login')
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
+    user = request.user
+    friends = user.friend_list.friends.all()
+
     posts = Post.objects.filter(
-        Q(title__icontains=q) |
-        Q(country__icontains=q) |
-        Q(city__icontains=q)
-        )
+        Q(host__in=friends) | Q(host=user)
+    ).filter(
+        Q(title__icontains=q) | Q(country__icontains=q) | Q(city__icontains=q)
+    )
 
     post_count = posts.count()
-
     context = {'posts': posts, 'post_count': post_count}
     return render(request, 'base/home.html', context)
 
@@ -210,12 +229,14 @@ def createPost(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.host = request.user
+            post.latitude = round(post.latitude, 8) if post.latitude else None
+            post.longitude = round(post.longitude, 8) if post.longitude else None
             post.save()
             for image in images:
                 PostImage.objects.create(post=post, image=image)
             return redirect('home')
 
-    context = {'form': form}
+    context = {'form': form, 'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY}
     return render(request, 'base/post_form.html', context)
 
 @login_required(login_url='login')
@@ -406,6 +427,19 @@ def update_trip(request, pk):
     else:
         form = TripForm(instance=trip)
     return render(request, 'base/trip_planner/update_trip.html', {'form': form})
+
+@login_required(login_url='login')
+def deleteTrip(request, pk):
+    trip = Trip.objects.get(id=pk)
+    
+    if request.user != trip.author:
+        return HttpResponse('You are not allowed here!')
+
+    if request.method == 'POST':
+        trip.delete()
+        return redirect('list_trips')
+
+    return render(request, 'base/delete.html', {'obj': trip})
 
 @login_required(login_url='login')
 def trip_detail(request, pk):

@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="search-results-container">
+    <h2>Wyszukaj użytkowników do dodania jako znajomych</h2>
+    
+    <div class="searchbar">
+        <form method="GET" action="{% url 'search_non_friends' %}">
+            <input type="text" name="q" placeholder="Wpisz nazwę użytkownika..." value="{{ request.GET.q }}">
+            <!-- <button type="submit">Szukaj</button> -->
+        </form>
+    </div>
+    
+    {% if query %}
+        {% if non_friends %}
+            <ul>
+                {% for user in non_friends %}
+                    <li>
+                        <a href="{% url 'user_profile' user.username %}">{{ user.username }}</a>
+                        <form method="POST" action="{% url 'send_friend_request' user.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Dodaj do znajomych</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Brak wyników dla "{{ query }}".</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

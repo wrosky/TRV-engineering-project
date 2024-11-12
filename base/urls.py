@@ -30,6 +30,7 @@ urlpatterns = [
     path('decline_friend_request/<int:request_id>/', views.decline_friend_request, name='decline_friend_request'),
     path('cancel_friend_request/<int:request_id>/', views.cancel_friend_request, name='cancel_friend_request'),
     path('remove_friend/<int:user_id>/', views.remove_friend, name='remove_friend'),
+    path('search-non-friends/', views.search_non_friends, name='search_non_friends'),
 
     path('chat/', views.chat, name='chat'),
     path('friend_chats/', views.friend_chats, name='friend_chats'),
@@ -40,6 +41,7 @@ urlpatterns = [
     path('trips/<int:pk>/', views.trip_detail, name='trip_detail'),
     path('trips/<int:pk>/update/', views.update_trip, name='update_trip'),
     path('trip/<int:pk>/download_pdf/', views.download_trip_pdf, name='download_trip_pdf'),
+    path('trip/<int:pk>/delete/', views.deleteTrip, name='delete_trip'),
 
 
     path('search-flight/', views.search_flight, name='search_flight'),

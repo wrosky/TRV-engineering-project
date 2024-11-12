@@ -40,6 +40,9 @@
                 </div>
             </div>
 
+            <h3>Lokalizacja:</h3>
+            <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+
             <div class="post-likes">
                 <a href="{% url 'like' post.id %}">
                     {% if user_has_liked %}
@@ -97,6 +100,7 @@
 </div>
 
 <script src="{% static 'js/lightbox.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
 
 <script>
     var swiper = new Swiper('.swiper-container', {
@@ -110,6 +114,27 @@
             clickable: true,
         },
     });
+</script>
+
+<script>
+    function initMap() {
+        
+        var latitude = parseFloat("{{ post.latitude }}");
+        var longitude = parseFloat("{{ post.longitude }}");
+
+        // Ustawienia mapy dla wyświetlenia statycznego
+        const map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: latitude, lng: longitude },
+            zoom: 12
+        });
+
+        // Dodanie markera bez możliwości przeciągania
+        new google.maps.Marker({
+            position: { lat: latitude, lng: longitude },
+            map: map,
+            draggable: false  // Wyłącza przeciąganie markera
+        });
+    }
 </script>
 
 {% endblock %}

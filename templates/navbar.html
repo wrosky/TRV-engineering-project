@@ -16,8 +16,11 @@
     {% include 'searchbar.html' %}
     
     <div class="navbar-container-right">
+        <a href="{% url 'search_non_friends' %}" style="margin-right: 20px; margin-left: 20px;">
+            <img src="{% static 'images/user-add.svg' %}" alt="user-add">
+        </a>
         <a href="{% url 'friend_chats' %}" style="margin-right: 20px; margin-left: 20px;">
-            <img src="{% static 'images/chat.svg' %}" alt="notebook">
+            <img src="{% static 'images/chat.svg' %}" alt="chat">
         </a>
         {% if request.user.is_authenticated %}
         <div class="dropdown">

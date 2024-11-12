@@ -37,6 +37,13 @@
         </div>
 
         <div>
+            {{ form.latitude }}
+            {{ form.longitude }}
+
+            <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+        </div>
+
+        <div>
             {{ form.image.label_tag }}
             <input type="file" name="images" multiple>
         </div>
@@ -65,5 +72,37 @@
         </div>
     </form>
 </div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 52.2297, lng: 21.0122 },
+            zoom: 6
+        });
+
+        var marker;
+
+        map.addListener('click', function(event) {
+            var lat = event.latLng.lat();
+            var lng = event.latLng.lng();
+
+            document.getElementById('id_latitude').value = lat;
+            document.getElementById('id_longitude').value = lng;
+
+            console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+
+            if (marker) {
+                marker.setPosition(event.latLng);
+            } else {
+                marker = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map
+                });
+            }
+        });
+    }
+</script>
 
 {% endblock %}

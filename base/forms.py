@@ -6,15 +6,17 @@ from django_countries.fields import CountryField
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['country', 'city', 'image', 'description', 'note', 'rate']
+        fields = ['country', 'city', 'image', 'description', 'note', 'rate', 'latitude', 'longitude']
         widgets = {
-            'rate': forms.RadioSelect(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])
+            'rate': forms.RadioSelect(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')]),
+            'latitude': forms.HiddenInput(),
+            'longitude': forms.HiddenInput(),
         }
 
 class EditUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'bio', 'avatar']
+        fields = ['username', 'first_name', 'last_name', 'bio', 'avatar']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),

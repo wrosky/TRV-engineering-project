@@ -6,6 +6,8 @@ from django_countries.fields import CountryField
 
 class User(AbstractUser):
     name = models.CharField(max_length=100, null=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(unique=True)
     bio = models.TextField(null=True, blank=True)
     avatar = models.ImageField(null=True, default='user-avatar.svg')
@@ -79,6 +81,8 @@ class Post(models.Model):
     rate = models.IntegerField()
     image = models.ImageField(upload_to='posts/', blank=True, null=True)
     likes = models.IntegerField(default=0)
+    latitude = models.DecimalField(max_digits=20, decimal_places=16, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=20, decimal_places=16, blank=True, null=True)
 
     class Meta:
         ordering = ['-date_created']

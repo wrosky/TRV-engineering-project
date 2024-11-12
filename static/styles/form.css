@@ -51,6 +51,7 @@
     display: block;
     width: calc(100% - 15px);
     margin: auto;
+    margin-top: 15px;
 }
 
 .form-register input[type="submit"]:hover,

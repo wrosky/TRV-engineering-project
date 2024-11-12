@@ -5,6 +5,7 @@
             <img src="{{user.avatar.url}}"/>
         </div>
     <h2>{{user.username}}</h2>
+    <p>{{user.first_name}} {{user.last_name}}</p>
     <h4>{{user.bio}}</h4>
     {% if user == request.user %}
         <a href="{% url 'edit_user' %}">

@@ -1,26 +1,37 @@
 {% load static %}
 <div class="feed-container">
 
-    {% for post in posts %}
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post-feed-container" id="post_feed_container">
+                <div class="avatar">
+                    <img src="{{ post.host.avatar.url }}" />
+                </div>
 
-        <div class="post-feed-container" id="post_feed_container">
-            <div class="avatar">
-                <img src="{{post.host.avatar.url}}" />
+                <h2><a href="{% url 'post' post.id %}">{{ post.city }}</a></h2>
+                <h3>{{ post.likes }} likes</h3>
+
+                {% if request.user == post.host %}
+                <div>
+                    <a href="{% url 'delete_post' post.id %}">
+                        <img src="{% static 'images/delete-trash.svg' %}" alt="trash">
+                    </a>
+                    <a href="{% url 'update_post' post.id %}">
+                        <img src="{% static 'images/edit-pencil.svg' %}" alt="edit">
+                    </a>
+                </div>
+                {% endif %}
             </div>
-
-            <!-- <span><a href="{% url 'user_profile' post.host.username %}">{{post.host.username}}</a></span> -->
-            <h2><a href="{% url 'post' post.id %}">{{post.city}}</a></h2>
-
-            <h3>{{post.likes}} likes</h3>
-
-            {% if request.user == post.host %}
-
-            <!-- <a href="{% url 'update_post' post.id %}">Edit</a> -->
-            <a href="{% url 'delete_post' post.id %}"><img src="{% static 'images/delete-trash.svg' %}" alt="trash"></a>
-
-            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="no-posts-message">
+            <h2>Witaj w Twoim feedzie!</h2>
+            <center>
+                <h3>Nie masz jeszcze żadnych postów do wyświetlenia.</h3>
+                <h3>Aby rozpocząć budowanie swojej sieci znajomych i odkrywać ciekawe miejsca, zacznij dodawać nowych znajomych! Możesz przeglądać profile innych użytkowników i zapraszać ich do znajomości, aby zobaczyć, co mają do powiedzenia.</h3>
+                <p>Kliknij <a href="{% url 'search_non_friends' %}"><b>tutaj</b></a>, aby rozpocząć poszukiwanie znajomych i poszerzyć swoją społeczność!</p>
+            </center>
         </div>
-
-    {% endfor %}
+    {% endif %}
 
 </div>

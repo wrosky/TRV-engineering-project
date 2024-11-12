@@ -1,4 +1,7 @@
 {% extends 'main.html' %}
+
+{% load static %}
+
 {% block content %}
   <div class="form-trip-create-post">
     <h2>{{ trip.title }}</h2>
@@ -9,5 +12,8 @@
     <p><strong>Total Price:</strong> {{ trip.total_price }} PLN</p>
     <a href="{% url 'update_trip' pk=trip.pk %}" class="btn-submit">Edit Trip</a>
     <a href="{% url 'download_trip_pdf' pk=trip.pk %}" class="btn-submit" style="margin-top: 15px;">Download as PDF for all details</a>
+    <a href="{% url 'delete_trip' trip.id %}">
+      <img src="{% static 'images/delete-trash.svg' %}" alt="trash">
+    </a>
   </div>
 {% endblock %}
