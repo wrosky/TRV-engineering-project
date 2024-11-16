@@ -201,6 +201,19 @@ hr{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.friend-list-chat-container{
+    margin: auto;
+    background-color: #B4D4FF;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 20px;
+    max-width: 25%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .friend-list-container h3{
     text-align: center;
     margin: auto;

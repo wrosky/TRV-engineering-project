@@ -110,3 +110,18 @@ label {
     font-size: 18px;
     font-weight: bold;
 }
+
+.trip-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.trip-detail-item {
+    flex: 1 1 45%;
+    background-color: #E9F3FF;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}

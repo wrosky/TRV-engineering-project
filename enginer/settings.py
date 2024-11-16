@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_countries',
 
     'base.apps.BaseConfig',
+    'django_extensions',
 ]
 
 AUTH_USER_MODEL = 'base.User'

@@ -26,7 +26,9 @@
                 </div>
             </div>
 
+            <h3>Opis:</h3>
             <p>{{post.description}}</p>
+            <h3>Uwagi:</h3>
             <p>{{post.note}}</p>
             <div class="post-rating">
                 <div class="star-rating-display">
@@ -46,12 +48,12 @@
             <div class="post-likes">
                 <a href="{% url 'like' post.id %}">
                     {% if user_has_liked %}
-                        <img src="{% static 'images/unlike.svg' %}" alt="dislike">
+                        <center><img src="{% static 'images/unlike.svg' %}" alt="dislike"></center>
                     {% else %}
-                        <img src="{% static 'images/like.svg' %}" alt="like">
+                        <center><img src="{% static 'images/like.svg' %}" alt="like"></center>
                     {% endif %}
                 </a>
-                <h3>{{post.likes}}</h3>
+                <center><h3>{{post.likes}}</h3></center>
             </div>
             
             <div id="lightbox" class="lightbox" onclick="closeLightbox()">

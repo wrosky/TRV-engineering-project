@@ -7,19 +7,18 @@
     <div class="searchbar">
         <form method="GET" action="{% url 'search_non_friends' %}">
             <input type="text" name="q" placeholder="Wpisz nazwę użytkownika..." value="{{ request.GET.q }}">
-            <!-- <button type="submit">Szukaj</button> -->
         </form>
     </div>
     
     {% if query %}
         {% if non_friends %}
-            <ul>
+            <ul class="user-list">
                 {% for user in non_friends %}
-                    <li>
+                    <li class="user-item">
                         <a href="{% url 'user_profile' user.username %}">{{ user.username }}</a>
-                        <form method="POST" action="{% url 'send_friend_request' user.id %}">
+                        <form method="POST" action="{% url 'send_friend_request' user.id %}" class="friend-request-form">
                             {% csrf_token %}
-                            <button type="submit">Dodaj do znajomych</button>
+                            <button type="submit" class="add-friend-button">Dodaj do znajomych</button>
                         </form>
                     </li>
                 {% endfor %}

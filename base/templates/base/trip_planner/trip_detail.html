@@ -1,19 +1,23 @@
 {% extends 'main.html' %}
-
 {% load static %}
 
 {% block content %}
   <div class="form-trip-create-post">
     <h2>{{ trip.title }}</h2>
-    <p><strong>Country:</strong> {{ trip.country }}</p>
-    <p><strong>Location:</strong> {{ trip.location }}</p>
-    <p><strong>Start Date:</strong> {{ trip.start_date }}</p>
-    <p><strong>End Date:</strong> {{ trip.end_date }}</p>
-    <p><strong>Total Price:</strong> {{ trip.total_price }} PLN</p>
+    <div class="trip-details">
+      <div class="trip-detail-item"><strong>Country:</strong> {{ trip.country }}</div>
+      <div class="trip-detail-item"><strong>Location:</strong> {{ trip.location }}</div>
+      <div class="trip-detail-item"><strong>Start Date:</strong> {{ trip.start_date }}</div>
+      <div class="trip-detail-item"><strong>End Date:</strong> {{ trip.end_date }}</div>
+      <div class="trip-detail-item"><strong>Flight From:</strong> {{ trip.flight_from_airport }} {{ trip.flight_from }}</div>
+      <div class="trip-detail-item"><strong>Flight To:</strong> {{ trip.flight_to_airport }} {{ trip.flight_to }}</div>
+      <div class="trip-detail-item"><strong>Flight Back From:</strong> {{ trip.flight_back_from_airport }} {{ trip.flight_back_from }}</div>
+      <div class="trip-detail-item"><strong>Flight Back To:</strong> {{ trip.flight_back_to_airport }} {{ trip.flight_back_to }}</div>
+      <div class="trip-detail-item"><strong>Accommodation:</strong> {{ trip.accommodation_name }}</div>
+      <div class="trip-detail-item"><strong>Total Price:</strong> {{ trip.total_price }} PLN</div>
+    </div>
     <a href="{% url 'update_trip' pk=trip.pk %}" class="btn-submit">Edit Trip</a>
-    <a href="{% url 'download_trip_pdf' pk=trip.pk %}" class="btn-submit" style="margin-top: 15px;">Download as PDF for all details</a>
-    <a href="{% url 'delete_trip' trip.id %}">
-      <img src="{% static 'images/delete-trash.svg' %}" alt="trash">
-    </a>
+    <a href="{% url 'download_trip_pdf' pk=trip.pk %}" class="btn-submit" style="margin-top: 15px;">Download as PDF</a>
+    <a href="{% url 'delete_trip' trip.id %}" class="btn-submit" style="margin-top: 15px;">Delete</a>
   </div>
 {% endblock %}

@@ -8,7 +8,7 @@
                     <img src="{{ post.host.avatar.url }}" />
                 </div>
 
-                <h2><a href="{% url 'post' post.id %}">{{ post.city }}</a></h2>
+                <h2><a href="{% url 'post' post.id %}">{{ post.country }}</a></h2>
                 <h3>{{ post.likes }} likes</h3>
 
                 {% if request.user == post.host %}
