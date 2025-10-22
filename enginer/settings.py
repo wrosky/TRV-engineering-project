@@ -45,12 +45,15 @@ INSTALLED_APPS = [
 
     'base.apps.BaseConfig',
     'django_extensions',
+    'csp',
 ]
 
 AUTH_USER_MODEL = 'base.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
+    'enginer.middleware.security_headers.EnsureSecurityHeadersMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -152,3 +155,29 @@ AMADEUS_CLIENT_ID = config('AMADEUS_CLIENT_ID')
 AMADEUS_CLIENT_SECRET = config('AMADEUS_CLIENT_SECRET')
 
 GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
+
+# CSP
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": ("'self'",),
+        "script-src": ("'self'", "https://ajax.googleapis.com"),
+        "style-src": ("'self'", "https://fonts.googleapis.com"),
+        "font-src": ("'self'", "https://fonts.gstatic.com"),
+        "img-src": ("'self'", "data:",),
+        "frame-ancestors": ("'none'",),
+        "form-action": ("'self'",),
+        "object-src": ("'none'",), 
+        "connect-src": ("'self'",)
+    },
+}
+
+WHITENOISE_ADD_HEADERS_FUNCTION = "enginer.whitenoise_headers.add_headers"
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_REFERRER_POLICY = "same-origin"
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
