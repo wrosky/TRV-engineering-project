@@ -1,3 +1,4 @@
+import pyotp
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
@@ -11,8 +12,16 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     bio = models.TextField(null=True, blank=True)
     avatar = models.ImageField(null=True, default='user-avatar.svg')
+    two_factor_enabled = models.BooleanField(default=False)
+    two_factor_secret = models.CharField(max_length=32, blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    def get_or_create_2fa_secret(self):
+        if not self.two_factor_secret:
+            self.two_factor_secret = pyotp.random_base32()
+            self.save(update_fields=["two_factor_secret"])
+        return self.two_factor_secret
 
 class FriendList(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friend_list')

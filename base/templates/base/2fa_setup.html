@@ -1,0 +1,44 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="profile-edit-container">
+    <form method="post" class="form-user-edit">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <div>
+                <h3>Enable Two-Factor Authentication</h3>
+            </div>
+            <p>
+                1. Open <strong>Google Authenticator</strong> (or other TOTP)<br>
+                2. Add new account and sign 2FA to this account
+            </p>
+            <p><center>{{ secret }}</center></p>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <h3>QR code</h3>
+            </div>
+
+            {% if qr_data_uri %}
+                <img src="{{ qr_data_uri }}" alt="QR code" style="width:200px;height:200px; border-radius: 8px; background: #fff;">
+            {% else %}
+                <p style="color:red;">QR code could not be generated.</p>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <div>
+                <h3>Confirm code</h3>
+            </div>
+            <p>Write 6-digit code from <strong>Google Authenticator</strong>, to confirm</p>
+            {{ form.code }}
+        </div>
+
+        <button type="submit" class="btn-submit">Enable 2FA</button>
+    </form>
+</div>
+
+{% endblock %}

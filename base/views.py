@@ -13,6 +13,10 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 import os
+import pyotp
+import base64
+import qrcode
+from io import BytesIO
 from .models import *
 from .forms import *
 
@@ -140,29 +144,121 @@ def loginPage(request):
         form = LoginForm(request.POST)
         print("Form valid:", form.is_valid())
         print("Errors:", form.errors)
+
         if form.is_valid():
             email = request.POST.get('email', '').lower()
             password = request.POST.get('password', '')
 
             try:
-                user = User.objects.get(email=email)
+                user_obj = User.objects.get(email=email)
             except User.DoesNotExist:
                 messages.error(request, 'User does not exist')
-                return render(request, 'base/login_register.html', {'page': page, 'form': form})
+                return render(request, 'base/login_register.html', {
+                    'page': page,
+                    'form': form,
+                    'RECAPTCHA_PUBLIC_KEY': settings.RECAPTCHA_PUBLIC_KEY,
+                })
 
-            user = authenticate(request, email=email, password=password)
+            auth_user = authenticate(request, email=email, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('home')
+            if auth_user is not None:
+                if getattr(auth_user, "two_factor_enabled", False):
+                    request.session['2fa_user_id'] = auth_user.id
+                    next_url = request.GET.get('next') or request.POST.get('next') or 'home'
+                    request.session['2fa_next'] = next_url
+                    return redirect('two_factor_verify')
+                else:
+                    login(request, auth_user)
+                    return redirect(request.GET.get('next') or 'home')
             else:
                 messages.error(request, 'Email OR password is incorrect')
         else:
             messages.error(request, 'Please correct the errors in the form.')
 
-    context = {'page': page, 'form': form, 'RECAPTCHA_PUBLIC_KEY': settings.RECAPTCHA_PUBLIC_KEY}
+    context = {
+        'page': page,
+        'form': form,
+        'RECAPTCHA_PUBLIC_KEY': settings.RECAPTCHA_PUBLIC_KEY,
+    }
     return render(request, 'base/login_register.html', context)
 
+@login_required(login_url='login')
+def two_factor_setup(request):
+    user = request.user
+    secret = user.get_or_create_2fa_secret()
+
+    issuer = "TRV-Engineering"
+    account_name = user.email or user.username
+
+    totp = pyotp.TOTP(secret)
+    otpauth_url = totp.provisioning_uri(name=account_name, issuer_name=issuer)
+
+    qr_img = qrcode.make(otpauth_url)
+    buffer = BytesIO()
+    qr_img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_data_uri = f"data:image/png;base64,{qr_base64}"
+
+    if request.method == "POST":
+        form = TwoFactorSetupConfirmForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data["code"]
+            if totp.verify(code, valid_window=1):
+                user.two_factor_enabled = True
+                user.save(update_fields=["two_factor_enabled"])
+                messages.success(request, "Two-factor authentication has been enabled.")
+                return redirect('user_profile', username=user.username)
+            else:
+                messages.error(request, "Invalid code, try again.")
+    else:
+        form = TwoFactorSetupConfirmForm()
+
+    return render(request, "base/2fa_setup.html", {
+        "secret": secret,
+        "otpauth_url": otpauth_url,
+        "form": form,
+        "qr_data_uri": qr_data_uri,   
+    })
+
+def two_factor_verify(request):
+    user_id = request.session.get("2fa_user_id")
+    if not user_id:
+        return redirect("login")
+
+    user = User.objects.get(pk=user_id)
+
+    totp = pyotp.TOTP(user.two_factor_secret)
+
+    if request.method == "POST":
+        form = TwoFactorVerifyForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data["code"]
+            if totp.verify(code, valid_window=1):
+                login(request, user)
+                next_url = request.session.pop("2fa_next", "home")
+                request.session.pop("2fa_user_id", None)
+                return redirect(next_url)
+            else:
+                messages.error(request, "Incorrect code, please try again.")
+    else:
+        form = TwoFactorVerifyForm()
+
+    return render(request, "base/2fa_verify.html", {
+        "form": form,
+    })
+
+
+@login_required(login_url='login')
+def two_factor_disable(request):
+    user = request.user
+    if request.method == "POST":
+        user.two_factor_enabled = False
+        user.two_factor_secret = None
+        user.save(update_fields=["two_factor_enabled", "two_factor_secret"])
+        messages.success(request, "Two-factor authentication has been disabled.")
+        return redirect('user_profile', username=user.username)
+
+    return render(request, "base/2fa_disable.html", {})
 
 @login_required(login_url='login')
 def logoutUser(request):

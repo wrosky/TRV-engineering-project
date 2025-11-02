@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="form-login">
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-login-single">
+            <div>
+                <h5><label for="id_code">Two-Factor code:</label></h5>
+            </div>
+            {{ form.code }}
+        </div>
+
+        <input type="submit" value="Verify" class="btn-submit" />
+    </form>
+</div>
+
+<center>
+    <p>Open your Google Authenticator / Microsoft Authenticator and type the 6-digit code.</p>
+</center>
+
+{% endblock %}

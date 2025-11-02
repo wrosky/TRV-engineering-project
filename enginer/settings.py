@@ -53,8 +53,8 @@ AUTH_USER_MODEL = 'base.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'csp.middleware.CSPMiddleware',
     'enginer.middleware.security_headers.EnsureSecurityHeadersMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -174,7 +174,7 @@ CONTENT_SECURITY_POLICY = {
         "style-src": ("'self'", "https://fonts.googleapis.com"),
         "font-src": ("'self'", "https://fonts.gstatic.com"),
 
-        "img-src": ("'self'", "data:", "https://www.google.com", "https://www.gstatic.com"),
+        "img-src": ("'self'", "data:", "https://www.google.com", "https://www.gstatic.com", "https://chart.googleapis.com",),
 
         "frame-src": ("'self'", "https://www.google.com", "https://www.google.com/recaptcha/"),
 

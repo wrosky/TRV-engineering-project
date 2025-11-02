@@ -40,6 +40,19 @@
             </div>
             {{ form.bio }}
         </div>
+        <div class="form-group" style="margin-top: 2rem;">
+            <div>
+                <h3>Two-Factor Authentication</h3>
+            </div>
+
+            {% if request.user.two_factor_enabled %}
+                <p>2FA is currently <strong>enabled</strong> for your account.</p>
+                <a href="{% url 'two_factor_disable' %}" class="btn-submit" style="display: inline-block; margin-top: 0.5rem;">Disable 2FA</a>
+            {% else %}
+                <p>2FA is currently <strong>disabled</strong>.</p>
+                <a href="{% url 'two_factor_setup' %}" class="btn-submit" style="display: inline-block; margin-top: 0.5rem;">Enable 2FA</a>
+            {% endif %}
+        </div>
         <button type="submit" class="btn-submit">Save Changes</button>
     </form>
 </div>

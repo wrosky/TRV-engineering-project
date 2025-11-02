@@ -21,11 +21,22 @@ class LoginForm(forms.Form):
         )
     )
 
-# class RegisterForm(forms.Form):
-#     pass
+class TwoFactorVerifyForm(forms.Form):
+    code = forms.CharField(
+        max_length=6,
+        min_length=6,
+        strip=True,
+        widget=forms.TextInput(attrs={"placeholder": "6-digit code"})
+    )
 
-# class LoginForm(forms.Form):
-#     pass
+
+class TwoFactorSetupConfirmForm(forms.Form):
+    code = forms.CharField(
+        max_length=6,
+        min_length=6,
+        strip=True,
+        widget=forms.TextInput(attrs={"placeholder": "6-digit code from app"})
+    )
 
 class PostForm(forms.ModelForm):
     class Meta:

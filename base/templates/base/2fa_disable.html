@@ -1,0 +1,22 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="profile-edit-container">
+    <form method="post" class="form-user-edit">
+        {% csrf_token %}
+        <div class="form-group">
+            <div>
+                <h3>Disable Two-Factor Authentication</h3>
+            </div>
+            <p>
+                Are you sure you want to disable 2FA?<br>
+                (Login will be only possible with password)
+            </p>
+        </div>
+
+        <button type="submit" class="btn-submit" style="background: #c0392b;">Disable 2FA</button>
+    </form>
+</div>
+
+{% endblock %}

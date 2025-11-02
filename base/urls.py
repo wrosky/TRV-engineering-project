@@ -9,6 +9,10 @@ urlpatterns = [
     path('logout/', views.logoutUser, name='logout'),
     path('register/', views.registerPage, name='register'),
 
+    path('2fa/setup/', views.two_factor_setup, name='two_factor_setup'),
+    path('2fa/verify/', views.two_factor_verify, name='two_factor_verify'),
+    path('2fa/disable/', views.two_factor_disable, name='two_factor_disable'),
+
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="base/password_reset/password_reset.html"), name='reset_password'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="base/password_reset/password_reset_sent.html"), name='password_reset_done'),
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name="base/password_reset/password_reset_form.html"), name='password_reset_confirm'),

@@ -28,7 +28,7 @@
                 <a href="{% url 'user_profile' request.user.username %}"><img src="{{ request.user.avatar.url }}"/></a>
             </div>
             <div class="dropdown-content">
-                <div class="edit-user-button">
+                <div class="edit-user-button" style="margin-bottom: 10px;">
                     <a href="{% url 'edit_user' %}">Edit Profile</a>
                 </div>
                 <div class="logout-button" style="margin-top: 10px;">
