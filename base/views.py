@@ -131,29 +131,38 @@ def remove_friend(request, user_id):
 
 def loginPage(request):
     page = 'login'
+    form = LoginForm()
 
     if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == 'POST':
-        email = request.POST.get('email').lower()
-        password = request.POST.get('password')
+        form = LoginForm(request.POST)
+        print("Form valid:", form.is_valid())
+        print("Errors:", form.errors)
+        if form.is_valid():
+            email = request.POST.get('email', '').lower()
+            password = request.POST.get('password', '')
 
-        try:
-            user = User.objects.get(email=email)
-        except:
-            messages.error(request, 'User does not exist')
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                messages.error(request, 'User does not exist')
+                return render(request, 'base/login_register.html', {'page': page, 'form': form})
 
-        user = authenticate(request, email=email, password=password)
+            user = authenticate(request, email=email, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.error(request, 'Email OR password is incorrect')
         else:
-            messages.error(request, 'Email OR password is incorrect')
+            messages.error(request, 'Please correct the errors in the form.')
 
-    context = {'page': page}
+    context = {'page': page, 'form': form, 'RECAPTCHA_PUBLIC_KEY': settings.RECAPTCHA_PUBLIC_KEY}
     return render(request, 'base/login_register.html', context)
+
 
 @login_required(login_url='login')
 def logoutUser(request):
@@ -162,27 +171,32 @@ def logoutUser(request):
 
 def registerPage(request):
     page = 'register'
+    form = RegisterForm()
 
     if request.method == 'POST':
-        username = request.POST.get('username').lower()
-        email = request.POST.get('email').lower()
-        password = request.POST.get('password')
-        password_confirm = request.POST.get('password_confirm')
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            username = request.POST.get('username').lower()
+            email = request.POST.get('email').lower()
+            password = request.POST.get('password')
+            password_confirm = request.POST.get('password_confirm')
 
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists')
-        elif User.objects.filter(email=email).exists():
-            messages.error(request, 'Email already exists')
-        elif password != password_confirm:
-            messages.error(request, 'Passwords do not match')
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, 'Email already exists')
+            elif password != password_confirm:
+                messages.error(request, 'Passwords do not match')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.save()
+                messages.success(request, 'Account created successfully')
+
+                return redirect('login')
         else:
-            user = User.objects.create_user(username=username, email=email, password=password)
-            user.save()
-            messages.success(request, 'Account created successfully')
+            messages.error(request, 'Invalid reCAPTCHA. Please try again.')
 
-            return redirect('login')
-
-    context = {'page': page}
+    context = {'page': page, 'form' : form, 'RECAPTCHA_PUBLIC_KEY': settings.RECAPTCHA_PUBLIC_KEY}
     return render(request, 'base/login_register.html', context)
 
 @login_required(login_url='login')

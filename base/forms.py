@@ -1,7 +1,31 @@
 from django import forms
 from .models import *
+from django.conf import settings
 from django_select2.forms import Select2Widget
 from django_countries.fields import CountryField
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV3
+
+class RegisterForm(forms.Form):
+    captcha = ReCaptchaField(
+        widget=ReCaptchaV3(
+            action=getattr(settings, "RECAPTCHA_DEFAULT_ACTION", "generic")
+        )
+    )
+
+
+class LoginForm(forms.Form):
+    captcha = ReCaptchaField(
+        widget=ReCaptchaV3(
+            action=getattr(settings, "RECAPTCHA_DEFAULT_ACTION", "generic")
+        )
+    )
+
+# class RegisterForm(forms.Form):
+#     pass
+
+# class LoginForm(forms.Form):
+#     pass
 
 class PostForm(forms.ModelForm):
     class Meta:

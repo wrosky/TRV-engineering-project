@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     'django_extensions',
     'csp',
+    'django_recaptcha'
 ]
 
 AUTH_USER_MODEL = 'base.User'
@@ -160,24 +161,42 @@ GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
         "default-src": ("'self'",),
-        "script-src": ("'self'", "https://ajax.googleapis.com"),
+
+        "script-src": (
+            "'self'",
+            "https://ajax.googleapis.com",
+            "https://www.google.com",
+            "https://www.gstatic.com",
+            "https://www.google.com/recaptcha/",
+            "https://www.gstatic.com/recaptcha/",
+        ),
+
         "style-src": ("'self'", "https://fonts.googleapis.com"),
         "font-src": ("'self'", "https://fonts.gstatic.com"),
-        "img-src": ("'self'", "data:",),
+
+        "img-src": ("'self'", "data:", "https://www.google.com", "https://www.gstatic.com"),
+
+        "frame-src": ("'self'", "https://www.google.com", "https://www.google.com/recaptcha/"),
+
+        "connect-src": ("'self'", "https://www.google.com", "https://www.gstatic.com"),
+
         "frame-ancestors": ("'none'",),
         "form-action": ("'self'",),
-        "object-src": ("'none'",), 
-        "connect-src": ("'self'",)
+        "object-src": ("'none'",),
     },
 }
 
 WHITENOISE_ADD_HEADERS_FUNCTION = "enginer.whitenoise_headers.add_headers"
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
 SECURE_REFERRER_POLICY = "same-origin"
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_DEFAULT_ACTION = 'generic'
+RECAPTCHA_SCORE_THRESHOLD = 0.5
+SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
