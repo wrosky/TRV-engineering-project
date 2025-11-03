@@ -12,6 +12,8 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 import os
 import pyotp
 import base64
@@ -272,10 +274,10 @@ def registerPage(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            username = request.POST.get('username').lower()
-            email = request.POST.get('email').lower()
-            password = request.POST.get('password')
-            password_confirm = request.POST.get('password_confirm')
+            username = request.POST.get('username', '').lower()
+            email = request.POST.get('email', '').lower()
+            password = request.POST.get('password', '')
+            password_confirm = request.POST.get('password_confirm', '')
 
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username already exists')
@@ -284,11 +286,21 @@ def registerPage(request):
             elif password != password_confirm:
                 messages.error(request, 'Passwords do not match')
             else:
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.save()
-                messages.success(request, 'Account created successfully')
-
-                return redirect('login')
+                dummy_user = User(username=username, email=email)
+                try:
+                    validate_password(password, user=dummy_user)
+                except ValidationError as e:
+                    for err in e.messages:
+                        messages.error(request, err)
+                else:
+                    user = User.objects.create_user(
+                        username=username,
+                        email=email,
+                        password=password
+                    )
+                    user.save()
+                    messages.success(request, 'Account created successfully')
+                    return redirect('login')
         else:
             messages.error(request, 'Invalid reCAPTCHA. Please try again.')
 
